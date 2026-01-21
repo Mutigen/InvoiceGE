@@ -53,6 +53,7 @@ export const NODEMAILER_PW = process.env.NODEMAILER_PW;
  */
 export const LOCALES = [
   { code: "en", name: "English" },
+  { code: "ka", name: "ქართული" },
   { code: "de", name: "Deutsch" },
   { code: "it", name: "Italiano" },
   { code: "es", name: "Español" },
@@ -125,6 +126,10 @@ export const FORM_DEFAULT_VALUES = {
     country: "",
     email: "",
     phone: "",
+    taxID: "",
+    swift: "",
+    iban: "",
+    directorName: "",
     customInputs: [],
   },
   receiver: {
@@ -135,6 +140,7 @@ export const FORM_DEFAULT_VALUES = {
     country: "",
     email: "",
     phone: "",
+    taxID: "",
     customInputs: [],
   },
   details: {
@@ -147,6 +153,7 @@ export const FORM_DEFAULT_VALUES = {
         name: "",
         description: "",
         quantity: 0,
+        unit: "",
         unitPrice: 0,
         total: 0,
       },

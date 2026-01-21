@@ -1,0 +1,98 @@
+{
+    "form": {
+        "title": "ინვოისი",
+        "description": "ინვოისის გენერირება",
+        "newInvBadge": "ახალი ინვოისი",
+        "wizard": {
+            "fromAndTo": "გამგზავნი და მიმღები",
+            "invoiceDetails": "ინვოისის დეტალები",
+            "lineItems": "პროდუქტები",
+            "paymentInfo": "გადახდის ინფორმაცია",
+            "summary": "შეჯამება",
+            "next": "შემდეგი",
+            "back": "უკან"
+        },
+        "steps": {
+            "fromAndTo": {
+                "billFrom": "გამგზავნი",
+                "billTo": "მიმღები",
+                "name": "სახელი",
+                "address": "მისამართი",
+                "zipCode": "ინდექსი",
+                "city": "ქალაქი",
+                "country": "ქვეყანა",
+                "email": "ელ. ფოსტა",
+                "phone": "ტელეფონი",
+                "taxID": "საიდენტიფიკაციო ნომერი",
+                "swift": "SWIFT კოდი",
+                "iban": "IBAN",
+                "directorName": "დირექტორის სახელი",
+                "addCustomInput": "დამატებითი ველი",
+                "sender": "გამგზავნი",
+                "receiver": "მიმღები"
+            },
+            "invoiceDetails": {
+                "heading": "ინვოისის დეტალები",
+                "invoiceLogo": {
+                    "label": "ლოგო",
+                    "placeholder": "ატვირთეთ სურათი"
+                },
+                "invoiceNumber": "ინვოისის ნომერი",
+                "issuedDate": "გამოცემის თარიღი",
+                "dueDate": "გადახდის ვადა",
+                "currency": "ვალუტა"
+            },
+            "lineItems": {
+                "heading": "პროდუქტები",
+                "item": "პროდუქტი",
+                "name": "დასახელება",
+                "quantity": "რაოდენობა",
+                "unit": "ერთეული",
+                "rate": "ფასი",
+                "total": "ჯამი",
+                "description": "აღწერა",
+                "addNewItem": "დაამატე ახალი პროდუქტი",
+                "removeItem": "წაშალე პროდუქტი"
+            },
+            "paymentInfo": {
+                "heading": "გადახდის ინფორმაცია",
+                "bankName": "ბანკის სახელი",
+                "accountName": "ანგარიშის სახელი",
+                "accountNumber": "ანგარიშის ნომერი"
+            },
+            "summary": {
+                "heading": "შეჯამება",
+                "signature": {
+                    "heading": "ხელმოწერა",
+                    "placeholder": "დაამატეთ ხელმოწერა",
+                    "description": "აირჩიეთ ხელმოწერის მეთოდი",
+                    "draw": "დახატვა",
+                    "type": "აკრეფა",
+                    "upload": "ატვირთვა"
+                },
+                "additionalNotes": "დამატებითი შენიშვნები",
+                "paymentTerms": "გადახდის პირობები",
+                "discount": "ფასდაკლება",
+                "tax": "დღგ",
+                "shipping": "მიწოდება",
+                "subTotal": "შუალედური ჯამი",
+                "totalAmount": "სრული თანხა",
+                "includeTotalInWords": "სიტყვიერად ჩაწერა?",
+                "yes": "კი",
+                "no": "არა"
+            }
+        }
+    },
+    "actions": {
+        "title": "მოქმედებები",
+        "description": "ოპერაციები და გადახედვა",
+        "loadInvoice": "ჩატვირთე ინვოისი",
+        "exportInvoice": "ექსპორტი",
+        "newInvoice": "ახალი ინვოისი",
+        "generatePdf": "PDF გენერაცია",
+        "pdfView": "PDF ნახვა"
+    },
+    "footer": {
+        "developedBy": "შექმნილია"
+    }
+}

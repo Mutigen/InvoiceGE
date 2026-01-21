@@ -94,6 +94,10 @@ const InvoiceSenderSchema = z.object({
     country: fieldValidators.country,
     email: fieldValidators.email,
     phone: fieldValidators.phone,
+    taxID: fieldValidators.stringOptional,
+    swift: fieldValidators.stringOptional,
+    iban: fieldValidators.stringOptional,
+    directorName: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });
 
@@ -105,6 +109,7 @@ const InvoiceReceiverSchema = z.object({
     country: fieldValidators.country,
     email: fieldValidators.email,
     phone: fieldValidators.phone,
+    taxID: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });
 
@@ -112,6 +117,7 @@ const ItemSchema = z.object({
     name: fieldValidators.stringMin1,
     description: fieldValidators.stringOptional,
     quantity: fieldValidators.quantity,
+    unit: fieldValidators.stringOptional,
     unitPrice: fieldValidators.unitPrice,
     total: fieldValidators.stringToNumber,
 });

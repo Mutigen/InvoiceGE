@@ -174,6 +174,14 @@ const SingleItem = ({
                 />
 
                 <FormInput
+                    name={`${name}[${index}].unit`}
+                    label={_t("form.steps.lineItems.unit")}
+                    placeholder="Unit (e.g., ცალი, kg)"
+                    className="w-[8rem]"
+                    vertical
+                />
+
+                <FormInput
                     name={`${name}[${index}].unitPrice`}
                     type="number"
                     label={_t("form.steps.lineItems.rate")}

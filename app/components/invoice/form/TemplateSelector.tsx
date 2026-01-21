@@ -20,6 +20,7 @@ import {
     InvoiceTemplate1,
     InvoiceTemplate2,
 } from "@/app/components";
+import InvoiceTemplate3 from "@/app/components/templates/invoice-pdf/InvoiceTemplate3";
 
 // Template images
 import template1 from "@/public/assets/img/invoice-1-example.png";
@@ -48,6 +49,13 @@ const TemplateSelector = () => {
             description: "Second template",
             img: template2,
             component: <InvoiceTemplate2 {...formValues} />,
+        },
+        {
+            id: 3,
+            name: "Template 3 (Georgian)",
+            description: "Georgian invoice format with VAT details",
+            img: template1, // Temporary placeholder
+            component: <InvoiceTemplate3 {...formValues} />,
         },
     ];
     return (

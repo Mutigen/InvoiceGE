@@ -85,6 +85,26 @@ const BillFromSection = () => {
                     target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
                 }}
             />
+            <FormInput
+                name="sender.taxID"
+                label={_t("form.steps.fromAndTo.taxID")}
+                placeholder="Tax Identification Number"
+            />
+            <FormInput
+                name="sender.swift"
+                label={_t("form.steps.fromAndTo.swift")}
+                placeholder="SWIFT/BIC Code"
+            />
+            <FormInput
+                name="sender.iban"
+                label={_t("form.steps.fromAndTo.iban")}
+                placeholder="IBAN"
+            />
+            <FormInput
+                name="sender.directorName"
+                label={_t("form.steps.fromAndTo.directorName")}
+                placeholder="Director Name"
+            />
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (
                 <FormCustomInput

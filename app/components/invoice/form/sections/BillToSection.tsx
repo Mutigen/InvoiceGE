@@ -86,6 +86,11 @@ const BillToSection = () => {
                     target.value = target.value.replace(/[^\d\+\-\(\)\s]/g, "");
                 }}
             />
+            <FormInput
+                name="receiver.taxID"
+                label={_t("form.steps.fromAndTo.taxID")}
+                placeholder="Tax Identification Number"
+            />
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (
                 <FormCustomInput
