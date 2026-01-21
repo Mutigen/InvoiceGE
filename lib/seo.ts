@@ -22,8 +22,8 @@ export const JSONLD = {
         "@id": `${BASE_URL}/#website`,
     },
     author: {
-        "@type": "Person",
-        name: "Ali Abbasov",
+        "@type": "Organization",
+        name: "InvoiceGE Team",
         url: AUTHOR_WEBSITE,
     },
     "@graph": [

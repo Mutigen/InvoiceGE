@@ -53,9 +53,6 @@ Invoify is a web-based invoice generator application built with Next.js 13, Type
 
 ## Demo
 
-> [!NOTE]
-> Please be advised that there are currently issues when using this application in the Mozilla Firefox browser. For more information, refer to [Issue #11](https://github.com/aliabb01/invoify/issues/11).
-
 Visit the [live demo](https://invoify.vercel.app) to see Invoify in action.
 
 ## Getting Started
@@ -71,8 +68,8 @@ Follow these instructions to get Invoify up and running on your local machine.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/al1abb/invoify.git
-   cd invoify
+   git clone https://github.com/yourusername/invoicege.git
+   cd InvoiceGE
    ```
 2. Install dependencies
    
@@ -95,5 +92,3 @@ Follow these instructions to get Invoify up and running on your local machine.
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-## Discord
-Join the Discord server [here](https://discord.gg/uhXKHbVKHZ)
