@@ -1,5 +1,5 @@
 // Components
-import { BaseFooter, BaseNavbar, PWARegister } from "@/app/components";
+import { BaseFooter, BaseNavbar } from "@/app/components";
 // ShadCn
 import { Toaster } from "@/components/ui/toaster";
 // Contexts
@@ -16,8 +16,6 @@ import {
 import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
 // Variables
 import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
-// Favicon
-import Favicon from "@/public/assets/favicon/favicon.ico";
 // Vercel Analytics
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
@@ -29,7 +27,11 @@ export const metadata: Metadata = {
     title: "InvoiceGE | Georgian Invoice Generator",
     description:
         "Create professional invoices for Georgian businesses with VAT support. Free, offline-capable invoice generator.",
-    icons: [{ rel: "icon", url: Favicon.src }],
+    icons: [
+        { rel: "icon", url: "/assets/favicon/favicon-32x32.png", sizes: "32x32" },
+        { rel: "icon", url: "/assets/favicon/favicon-16x16.png", sizes: "16x16" },
+        { rel: "apple-touch-icon", url: "/assets/favicon/apple-touch-icon.png" }
+    ],
     keywords: ROOTKEYWORDS,
     robots: {
         index: true,
@@ -106,9 +108,6 @@ export default async function LocaleLayout(props: {
 
                         {/* Toast component */}
                         <Toaster />
-
-                        {/* PWA Registration */}
-                        <PWARegister />
 
                         {/* Vercel analytics */}
                         <Analytics />
