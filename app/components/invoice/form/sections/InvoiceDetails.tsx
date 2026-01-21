@@ -1,7 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
+
+// RHF
+import { useFormContext } from "react-hook-form";
+
 // Components
 import {
+    BaseButton,
     CurrencySelector,
     DatePickerFormField,
     FormInput,
@@ -13,8 +19,30 @@ import {
 // Contexts
 import { useTranslationContext } from "@/contexts/TranslationContext";
 
+// Helpers
+import { generateInvoiceNumber, previewNextInvoiceNumber } from "@/lib/invoiceNumbering";
+
+// Icons
+import { RefreshCw } from "lucide-react";
+
 const InvoiceDetails = () => {
     const { _t } = useTranslationContext();
+    const { watch, setValue } = useFormContext();
+
+    const currentInvoiceNumber = watch("details.invoiceNumber");
+
+    // Auto-generate invoice number if empty
+    useEffect(() => {
+        if (!currentInvoiceNumber || currentInvoiceNumber === "") {
+            const newNumber = previewNextInvoiceNumber();
+            setValue("details.invoiceNumber", newNumber);
+        }
+    }, []);
+
+    const handleGenerateNewNumber = () => {
+        const newNumber = generateInvoiceNumber();
+        setValue("details.invoiceNumber", newNumber);
+    };
 
     return (
         <section className="flex flex-col flex-wrap gap-5">
@@ -32,11 +60,23 @@ const InvoiceDetails = () => {
                         )}
                     />
 
-                    <FormInput
-                        name="details.invoiceNumber"
-                        label={_t("form.steps.invoiceDetails.invoiceNumber")}
-                        placeholder="Invoice number"
-                    />
+                    <div className="flex flex-col gap-2">
+                        <FormInput
+                            name="details.invoiceNumber"
+                            label={_t("form.steps.invoiceDetails.invoiceNumber")}
+                            placeholder="Invoice number"
+                        />
+                        <BaseButton
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={handleGenerateNewNumber}
+                            className="w-fit"
+                        >
+                            <RefreshCw className="w-4 h-4" />
+                            Generate New Number
+                        </BaseButton>
+                    </div>
 
                     <DatePickerFormField
                         name="details.invoiceDate"

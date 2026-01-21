@@ -1,5 +1,5 @@
 // Components
-import { BaseFooter, BaseNavbar } from "@/app/components";
+import { BaseFooter, BaseNavbar, PWARegister } from "@/app/components";
 // ShadCn
 import { Toaster } from "@/components/ui/toaster";
 // Contexts
@@ -26,9 +26,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
-    title: "Invoify | Free Invoice Generator",
+    title: "InvoiceGE | Georgian Invoice Generator",
     description:
-        "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
+        "Create professional invoices for Georgian businesses with VAT support. Free, offline-capable invoice generator.",
     icons: [{ rel: "icon", url: Favicon.src }],
     keywords: ROOTKEYWORDS,
     robots: {
@@ -44,6 +44,12 @@ export const metadata: Metadata = {
     },
     verification: {
         google: GOOGLE_SC_VERIFICATION,
+    },
+    manifest: "/manifest.json",
+    appleWebApp: {
+        capable: true,
+        statusBarStyle: "default",
+        title: "InvoiceGE",
     },
 };
 
@@ -100,6 +106,9 @@ export default async function LocaleLayout(props: {
 
                         {/* Toast component */}
                         <Toaster />
+
+                        {/* PWA Registration */}
+                        <PWARegister />
 
                         {/* Vercel analytics */}
                         <Analytics />

@@ -95,6 +95,11 @@ import InvoiceTemplate3 from "./templates/invoice-pdf/InvoiceTemplate3";
 import SendPdfEmail from "./templates/email/SendPdfEmail";
 
 /* =========================
+   * PWA
+   ========================= */
+import PWARegister from "./PWARegister";
+
+/* =========================
    ? DEV ONLY
    ========================= */
 import DevDebug from "./dev/DevDebug";
@@ -149,5 +154,6 @@ export {
     InvoiceTemplate2,
     InvoiceTemplate3,
     SendPdfEmail,
+    PWARegister,
     DevDebug,
 };
