@@ -12,12 +12,12 @@ import { SHORT_DATE_OPTIONS } from "@/lib/variables";
 // Types
 import { InvoiceType } from "@/types";
 
-const InvoiceTemplate3 = (data: InvoiceType) => {
-    const { sender, receiver, details } = data;
+const InvoiceTemplate3 = (data: InvoiceType & { locale?: string }) => {
+    const { sender, receiver, details, locale = 'ka' } = data; // Standardmäßig auf 'ka' für Georgisch
 
-    // Calculate VAT exclusive subtotal if tax is included
+    // Berechnung der Beträge
     const taxRate = details.taxDetails?.amount || 18;
-    const subtotalExVat = details.subTotal;
+    const subtotalExVat = details.subTotal || 0;
     const vatAmount = (subtotalExVat * taxRate) / 100;
     const totalWithVat = subtotalExVat + vatAmount;
 
@@ -41,14 +41,14 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                 </div>
                 <div className="text-right">
                     <p className="text-sm text-gray-600">
-                        <span className="font-semibold">Invoice Date:</span>{" "}
-                        {new Date(details.invoiceDate).toLocaleDateString(
-                            "en-US",
+                        <span className="font-semibold">ინვოისის თარიღი:</span>{" "}
+                        {details.invoiceDate ? new Date(details.invoiceDate).toLocaleDateString(
+                            "ka-GE",
                             SHORT_DATE_OPTIONS
-                        )}
+                        ) : ''}
                     </p>
                     <p className="text-sm text-gray-600">
-                        <span className="font-semibold">Invoice Number:</span>{" "}
+                        <span className="font-semibold">ინვოისის ნომერი:</span>{" "}
                         <span className="text-blue-600 font-bold">
                             {details.invoiceNumber}
                         </span>
@@ -56,19 +56,49 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                 </div>
             </div>
 
-            {/* Bill To & Bank Details Section */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
+            {/* Bill From, Bill To & Bank Details Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+                {/* Bill From */}
+                <div className="border border-gray-300 p-4 rounded-lg">
+                    <h3 className="text-sm font-bold text-gray-700 uppercase mb-2">
+                        გამომგზავნი:
+                    </h3>
+                    <p className="font-semibold text-gray-900">{sender.name}</p>
+                    {sender.taxID && (
+                        <p className="text-sm text-gray-600">
+                            საიდენტიფიკაციო კოდი: {sender.taxID}
+                        </p>
+                    )}
+                    {sender.address && (
+                        <p className="text-sm text-gray-600">{sender.address}</p>
+                    )}
+                    {(sender.zipCode || sender.city) && (
+                        <p className="text-sm text-gray-600">
+                            {sender.zipCode && `${sender.zipCode}, `}{sender.city}
+                        </p>
+                    )}
+                    {sender.country && (
+                        <p className="text-sm text-gray-600">{sender.country}</p>
+                    )}
+                    {sender.email && (
+                        <p className="text-sm text-gray-600">ელ-ფოსტა: {sender.email}</p>
+                    )}
+                    {sender.phone && (
+                        <p className="text-sm text-gray-600">ტელეფონი: {sender.phone}</p>
+                    )}
+                </div>
+
                 {/* Bill To */}
                 <div className="border border-gray-300 p-4 rounded-lg">
                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-2">
-                        Bill To:
+                        მიმღები:
                     </h3>
                     <p className="font-semibold text-gray-900">
                         {receiver.name}
                     </p>
                     {receiver.taxID && (
                         <p className="text-sm text-gray-600">
-                            Tax ID: {receiver.taxID}
+                            საიდენტიფიკაციო კოდი: {receiver.taxID}
                         </p>
                     )}
                     {receiver.address && (
@@ -76,16 +106,20 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                             {receiver.address}
                         </p>
                     )}
-                    {(receiver.city || receiver.country) && (
+                    {(receiver.zipCode || receiver.city) && (
                         <p className="text-sm text-gray-600">
-                            {receiver.city}
-                            {receiver.city && receiver.country && ", "}
-                            {receiver.country}
+                            {receiver.zipCode && `${receiver.zipCode}, `}{receiver.city}
                         </p>
+                    )}
+                    {receiver.country && (
+                        <p className="text-sm text-gray-600">{receiver.country}</p>
+                    )}
+                    {receiver.email && (
+                        <p className="text-sm text-gray-600">ელ-ფოსტა: {receiver.email}</p>
                     )}
                     {receiver.phone && (
                         <p className="text-sm text-gray-600">
-                            Phone: {receiver.phone}
+                            ტელეფონი: {receiver.phone}
                         </p>
                     )}
                 </div>
@@ -93,12 +127,18 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                 {/* Bank Details */}
                 <div className="border border-gray-300 p-4 rounded-lg">
                     <h3 className="text-sm font-bold text-gray-700 uppercase mb-2">
-                        Bank Details:
+                        საბანკო რეკვიზიტები:
                     </h3>
-                    {sender.swift && (
+                    {details.paymentInformation?.bankName && (
                         <p className="text-sm text-gray-600">
-                            <span className="font-semibold">Bank:</span>{" "}
-                            {details.paymentInformation?.bankName || "N/A"}
+                            <span className="font-semibold">ბანკი:</span>{" "}
+                            {details.paymentInformation.bankName}
+                        </p>
+                    )}
+                    {details.paymentInformation?.accountName && (
+                        <p className="text-sm text-gray-600">
+                            <span className="font-semibold">ანგარიშის დასახელება:</span>{" "}
+                            {details.paymentInformation.accountName}
                         </p>
                     )}
                     {sender.swift && (
@@ -114,12 +154,12 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                         </p>
                     )}
                     <p className="text-sm text-gray-600">
-                        <span className="font-semibold">Currency:</span>{" "}
+                        <span className="font-semibold">ვალუტა:</span>{" "}
                         {details.currency}
                     </p>
                     {sender.directorName && (
                         <p className="text-sm text-gray-600">
-                            <span className="font-semibold">Director:</span>{" "}
+                            <span className="font-semibold">დირექტორი:</span>{" "}
                             {sender.directorName}
                         </p>
                     )}
@@ -127,27 +167,27 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
             </div>
 
             {/* Items Table */}
-            <div className="mb-6">
-                <table className="w-full border-collapse border border-gray-300">
+            <div className="mb-6 overflow-x-auto">
+                <table className="w-full min-w-[640px] border-collapse border border-gray-300">
                     <thead className="bg-gray-100">
                         <tr>
                             <th className="border border-gray-300 px-2 py-2 text-left text-xs font-semibold text-gray-700 w-12">
-                                #
+                                №
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-left text-xs font-semibold text-gray-700">
-                                Description
+                                აღწერა
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-center text-xs font-semibold text-gray-700 w-20">
-                                Qty
+                                რაოდ.
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-center text-xs font-semibold text-gray-700 w-24">
-                                Unit
+                                ერთეული
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-right text-xs font-semibold text-gray-700 w-28">
-                                Price
+                                ფასი
                             </th>
                             <th className="border border-gray-300 px-2 py-2 text-right text-xs font-semibold text-gray-700 w-32">
-                                Total
+                                ჯამი
                             </th>
                         </tr>
                     </thead>
@@ -187,10 +227,10 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
 
             {/* Totals Section */}
             <div className="flex justify-end mb-6">
-                <div className="w-80 border border-gray-300 rounded-lg p-4 bg-gray-50">
+                <div className="w-full max-w-md border border-gray-300 rounded-lg p-4 bg-gray-50">
                     <div className="flex justify-between mb-2 pb-2 border-b border-gray-300">
                         <span className="text-sm text-gray-700">
-                            Subtotal (ex VAT):
+                            ჯამი დღგ-ს გარეშე:
                         </span>
                         <span className="text-sm font-semibold text-gray-900">
                             {formatNumberWithCommas(subtotalExVat)}{" "}
@@ -199,7 +239,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                     </div>
                     <div className="flex justify-between mb-2 pb-2 border-b border-gray-300">
                         <span className="text-sm text-gray-700">
-                            VAT ({taxRate}%):
+                            დღგ ({taxRate}%):
                         </span>
                         <span className="text-sm font-semibold text-gray-900">
                             {formatNumberWithCommas(vatAmount)}{" "}
@@ -208,7 +248,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
                     </div>
                     <div className="flex justify-between">
                         <span className="text-base font-bold text-gray-900">
-                            TOTAL:
+                            სულ გადასახდელი:
                         </span>
                         <span className="text-base font-bold text-blue-600">
                             {formatNumberWithCommas(totalWithVat)}{" "}
@@ -222,7 +262,7 @@ const InvoiceTemplate3 = (data: InvoiceType) => {
             {details.additionalNotes && (
                 <div className="mt-6 border-t border-gray-300 pt-4">
                     <h4 className="text-sm font-semibold text-gray-700 mb-2">
-                        Additional Notes:
+                        დამატებითი შენიშვნები:
                     </h4>
                     <p className="text-sm text-gray-600 whitespace-pre-line">
                         {details.additionalNotes}

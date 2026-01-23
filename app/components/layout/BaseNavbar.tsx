@@ -11,12 +11,9 @@ import Logo from "@/public/assets/img/mamikosinvoice-logo.svg";
 import { Card } from "@/components/ui/card";
 
 // Components
-import { DevDebug, LanguageSelector, ThemeSwitcher } from "@/app/components";
+import { LanguageSelector, ThemeSwitcher } from "@/app/components";
 
 const BaseNavbar = () => {
-    const devEnv = useMemo(() => {
-        return process.env.NODE_ENV === "development";
-    }, []);
 
     return (
         <header className="lg:container z-[99]">
@@ -25,15 +22,13 @@ const BaseNavbar = () => {
                     <Link href={"/"}>
                         <Image
                             src={Logo}
-                            alt="Invoify Logo"
+                            alt="Mamikos InvoiceGE Logo"
                             width={190}
                             height={100}
                             loading="eager"
                             style={{ height: "auto" }}
                         />
                     </Link>
-                    {/* ? DEV Only */}
-                    {devEnv && <DevDebug />}
                     <LanguageSelector />
                     <ThemeSwitcher />
                 </Card>

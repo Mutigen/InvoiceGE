@@ -97,7 +97,7 @@ export const SignatureContextProvider = ({
             setSignatureData("");
             setValue("details.signature", "");
         }
-    }, []);
+    }, [setValue]);
 
     /**
      * Fires every time canvas drawing stops

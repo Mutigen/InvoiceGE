@@ -61,13 +61,13 @@ const InvoiceTemplate = (data: InvoiceType) => {
 						<dl className='grid sm:grid-cols-6 gap-x-3'>
 							<dt className='col-span-3 font-semibold text-gray-800'>Invoice date:</dt>
 							<dd className='col-span-3 text-gray-500'>
-								{new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS)}
+								{details.invoiceDate ? new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS) : ''}
 							</dd>
 						</dl>
 						<dl className='grid sm:grid-cols-6 gap-x-3'>
 							<dt className='col-span-3 font-semibold text-gray-800'>Due date:</dt>
 							<dd className='col-span-3 text-gray-500'>
-								{new Date(details.dueDate).toLocaleDateString("en-US", DATE_OPTIONS)}
+								{details.dueDate ? new Date(details.dueDate).toLocaleDateString("en-US", DATE_OPTIONS) : ''}
 							</dd>
 						</dl>
 					</div>
@@ -185,7 +185,6 @@ const InvoiceTemplate = (data: InvoiceType) => {
 							Please send the payment to this address
 							<p className='text-sm'>Bank: {details.paymentInformation?.bankName}</p>
 							<p className='text-sm'>Account name: {details.paymentInformation?.accountName}</p>
-							<p className='text-sm'>Account no: {details.paymentInformation?.accountNumber}</p>
 						</span>
 					</div>
 				</div>

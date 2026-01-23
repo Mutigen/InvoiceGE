@@ -10,6 +10,7 @@ import React, {
 } from "react";
 
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 // RHF
 import { useFormContext } from "react-hook-form";
@@ -65,6 +66,7 @@ export const InvoiceContextProvider = ({
   children,
 }: InvoiceContextProviderProps) => {
   const router = useRouter();
+  const locale = useLocale();
 
   // Toasts
   const {
@@ -80,6 +82,22 @@ export const InvoiceContextProvider = ({
   // Get form values and methods from form context
   const { getValues, reset, watch } = useFormContext<InvoiceType>();
 
+  /**
+   * Get default form values with locale-specific PDF template
+   * ka (Georgian) → Template 3
+   * en, de (English, German) → Template 1
+   */
+  const getLocaleSpecificDefaults = useCallback(() => {
+    const defaultTemplate = locale === 'ka' ? 3 : 1;
+    return {
+      ...FORM_DEFAULT_VALUES,
+      details: {
+        ...FORM_DEFAULT_VALUES.details,
+        pdfTemplate: defaultTemplate,
+      },
+    };
+  }, [locale]);
+
   // Variables
   const [invoicePdf, setInvoicePdf] = useState<Blob>(new Blob());
   const [invoicePdfLoading, setInvoicePdfLoading] = useState<boolean>(false);
@@ -87,6 +105,7 @@ export const InvoiceContextProvider = ({
   // Saved invoices
   const [savedInvoices, setSavedInvoices] = useState<InvoiceType[]>([]);
 
+  // Load saved invoices
   useEffect(() => {
     let savedInvoicesDefault;
     if (typeof window !== undefined) {
@@ -98,6 +117,19 @@ export const InvoiceContextProvider = ({
       setSavedInvoices(savedInvoicesDefault);
     }
   }, []);
+
+  // Set locale-specific template on initial load if no draft exists
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const existingDraft = window.localStorage.getItem(LOCAL_STORAGE_INVOICE_DRAFT_KEY);
+
+    // Only set locale-specific defaults if there's no existing draft
+    if (!existingDraft) {
+      const localeDefaults = getLocaleSpecificDefaults();
+      reset(localeDefaults);
+    }
+  }, [locale, getLocaleSpecificDefaults, reset]);
 
   // Persist full form state with debounce
   useEffect(() => {
@@ -135,10 +167,11 @@ export const InvoiceContextProvider = ({
   };
 
   /**
-   * Generates a new invoice.
+   * Generates a new invoice with locale-specific template.
    */
-  const newInvoice = () => {
-    reset(FORM_DEFAULT_VALUES);
+  const newInvoice = useCallback(() => {
+    const localeDefaults = getLocaleSpecificDefaults();
+    reset(localeDefaults);
     setInvoicePdf(new Blob());
 
     // Clear the draft
@@ -152,7 +185,7 @@ export const InvoiceContextProvider = ({
 
     // Toast
     newInvoiceSuccess();
-  };
+  }, [getLocaleSpecificDefaults, reset, router, newInvoiceSuccess]);
 
   /**
    * Generate a PDF document based on the provided data.

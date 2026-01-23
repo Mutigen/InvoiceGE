@@ -49,12 +49,12 @@ const DatePickerFormField = ({ name, label }: DatePickerFormFieldProps) => {
                 control={control}
                 name={name}
                 render={({ field }) => (
-                    <FormItem>
-                        <div className="flex justify-between gap-5 items-center text-sm">
-                            <div>
+                    <FormItem className="w-full">
+                        <div className="flex justify-between gap-3 sm:gap-5 items-center text-sm flex-wrap sm:flex-nowrap">
+                            <div className="w-full sm:flex-1">
                                 <FormLabel>{label}:</FormLabel>
                             </div>
-                            <div>
+                            <div className="w-full sm:flex-1">
                                 <Popover
                                     open={isPopoverOpen}
                                     onOpenChange={setIsPopoverOpen}
@@ -64,7 +64,7 @@ const DatePickerFormField = ({ name, label }: DatePickerFormFieldProps) => {
                                             <Button
                                                 variant={"outline"}
                                                 className={cn(
-                                                    "w-[13rem]",
+                                                    "w-full",
                                                     !field.value &&
                                                         "text-muted-foreground"
                                                 )}

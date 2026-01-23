@@ -81,10 +81,10 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 Due date:
                             </dt>
                             <dd className="col-span-3 text-gray-500">
-                                {new Date(details.dueDate).toLocaleDateString(
+                                {details.dueDate ? new Date(details.dueDate).toLocaleDateString(
                                     "en-US",
                                     DATE_OPTIONS
-                                )}
+                                ) : ''}
                             </dd>
                         </dl>
                     </div>
@@ -252,10 +252,6 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                             <p className="text-sm">
                                 Account name:{" "}
                                 {details.paymentInformation?.accountName}
-                            </p>
-                            <p className="text-sm">
-                                Account no:{" "}
-                                {details.paymentInformation?.accountNumber}
                             </p>
                         </span>
                     </div>

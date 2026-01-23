@@ -24,12 +24,7 @@ const PaymentInformation = () => {
                     placeholder={_t("form.steps.paymentInfo.accountName")}
                     vertical
                 />
-                <FormInput
-                    name="details.paymentInformation.accountNumber"
-                    label={_t("form.steps.paymentInfo.accountNumber")}
-                    placeholder={_t("form.steps.paymentInfo.accountNumber")}
-                    vertical
-                />
+                {/* accountNumber entfernt - SWIFT/BIC und IBAN werden im "Bill From" Bereich eingegeben */}
             </div>
         </section>
     );

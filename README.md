@@ -1,13 +1,13 @@
-[![Discord](https://img.shields.io/badge/Discord-%40Invoify-000000?style=flat&logo=Discord&logoColor=#5865F2)](https://discord.gg/uhXKHbVKHZ)
-# Invoify
+[![Discord](https://img.shields.io/badge/Discord-%40InvoiceGE-000000?style=flat&logo=Discord&logoColor=#5865F2)](https://discord.gg/uhXKHbVKHZ)
+# Mamikos InvoiceGE
 
-Invoify is a web-based invoice generator application built with Next.js 13, TypeScript, React, and the Shadcn UI library. It provides an easy way to create and manage professional invoices.
+Mamikos InvoiceGE is a web-based invoice generator application built with Next.js 15, TypeScript, React, and the Shadcn UI library. It provides an easy way to create and manage professional invoices with support for Georgian language and templates.
 
-![Invoify Website image](/public/assets/img/invoify-web-app.png)
+![Mamikos InvoiceGE Website image](/public/assets/img/mamikosinvoice-web-app.png)
 
 ## Table of Contents
 
-- [Invoify](#invoify)
+- [Mamikos InvoiceGE](#mamikos-invoicege)
   - [Table of Contents](#table-of-contents)
   - [Technologies](#technologies)
     - [Core Technologies](#core-technologies)
@@ -43,21 +43,21 @@ Invoify is a web-based invoice generator application built with Next.js 13, Type
 - [x] **Save for Future Access:** Store your invoices directly in your browser for easy retrieval.
 - [x] **Retrieve Invoices Effortlessly:** Load and access invoices seamlessly from your saved list.
 - [x] **Flexible Download Options:** Download invoices directly or send them via email in PDF format.
-- [x] **Template Variety:** Choose from multiple (currently 2) invoice templates.
+- [x] **Template Variety:** Choose from multiple (currently 3) invoice templates including a Georgian template.
 - [x] **Live Preview:** Edit the form and see changes in real-time with the live preview feature.
 - [x] **Export in Various Formats:** Export invoices in different formats, including JSON, XLSX, CSV, and XML.
-- [ ] **I18N Support:** i18n support with multiple languages for UI and templates.
+- [x] **I18N Support:** i18n support with multiple languages for UI and templates (English, German, Georgian).
 - [ ] **Themeable Templates:** Select a theme color for the invoice
 - [ ] **Custom Inputs:** Define your own inputs that are missing from the default invoice builder. (Ex: VAT number)
 - [ ] **Individual Tax for Line Items:** Add tax details for a specific line item other than the general tax
 
 ## Demo
 
-Visit the [live demo](https://invoify.vercel.app) to see Invoify in action.
+Visit the [live demo](https://Mamikos_invoiceGE.vercel.app) to see Mamikos InvoiceGE in action.
 
 ## Getting Started
 
-Follow these instructions to get Invoify up and running on your local machine.
+Follow these instructions to get Mamikos InvoiceGE up and running on your local machine.
 
 ### Prerequisites
 

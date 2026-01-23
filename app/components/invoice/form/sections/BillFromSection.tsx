@@ -45,37 +45,30 @@ const BillFromSection = () => {
             <FormInput
                 name="sender.name"
                 label={_t("form.steps.fromAndTo.name")}
-                placeholder="Your name"
             />
             <FormInput
                 name="sender.address"
                 label={_t("form.steps.fromAndTo.address")}
-                placeholder="Your address"
             />
             <FormInput
                 name="sender.zipCode"
                 label={_t("form.steps.fromAndTo.zipCode")}
-                placeholder="Your zip code"
             />
             <FormInput
                 name="sender.city"
                 label={_t("form.steps.fromAndTo.city")}
-                placeholder="Your city"
             />
             <FormInput
                 name="sender.country"
                 label={_t("form.steps.fromAndTo.country")}
-                placeholder="Your country"
             />
             <FormInput
                 name="sender.email"
                 label={_t("form.steps.fromAndTo.email")}
-                placeholder="Your email"
             />
             <FormInput
                 name="sender.phone"
                 label={_t("form.steps.fromAndTo.phone")}
-                placeholder="Your phone number"
                 type="text"
                 inputMode="tel"
                 pattern="[0-9+\-\(\)\s]*"
@@ -88,22 +81,18 @@ const BillFromSection = () => {
             <FormInput
                 name="sender.taxID"
                 label={_t("form.steps.fromAndTo.taxID")}
-                placeholder="Tax Identification Number"
             />
             <FormInput
                 name="sender.swift"
                 label={_t("form.steps.fromAndTo.swift")}
-                placeholder="SWIFT/BIC Code"
             />
             <FormInput
                 name="sender.iban"
                 label={_t("form.steps.fromAndTo.iban")}
-                placeholder="IBAN"
             />
             <FormInput
                 name="sender.directorName"
                 label={_t("form.steps.fromAndTo.directorName")}
-                placeholder="Director Name"
             />
             {/* //? key = field.id fixes a bug where wrong field gets deleted  */}
             {fields?.map((field, index) => (

@@ -91,7 +91,6 @@ const InvoiceDetails = () => {
                     <CurrencySelector
                         name="details.currency"
                         label={_t("form.steps.invoiceDetails.currency")}
-                        placeholder="Select Currency"
                     />
                 </div>
 

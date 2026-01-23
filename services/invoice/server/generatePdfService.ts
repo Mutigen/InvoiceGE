@@ -29,8 +29,17 @@ export async function generatePdfService(req: NextRequest) {
         const ReactDOMServer = (await import("react-dom/server")).default;
         const templateId = body.details.pdfTemplate;
         const InvoiceTemplate = await getInvoiceTemplate(templateId);
+
+        // Extract locale from language
+        const languageToLocale: Record<string, string> = {
+            'English': 'en',
+            'Deutsch': 'de',
+            'ქართული': 'ka'
+        };
+        const locale = languageToLocale[body.details.language] || 'en';
+
         const htmlTemplate = ReactDOMServer.renderToStaticMarkup(
-            InvoiceTemplate(body)
+            InvoiceTemplate({ ...body, locale })
         );
 
 		if (ENV === "production") {

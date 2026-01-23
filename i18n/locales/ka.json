@@ -94,5 +94,27 @@
     },
     "footer": {
         "developedBy": "შექმნილია"
+    },
+    "template": {
+        "invoiceDate": "ინვოისის თარიღი",
+        "invoiceNumber": "ინვოისის ნომერი",
+        "billTo": "მიმღები",
+        "bankDetails": "საბანკო დეტალები",
+        "bank": "ბანკი",
+        "swift": "SWIFT",
+        "iban": "IBAN",
+        "currency": "ვალუტა",
+        "director": "დირექტორი",
+        "number": "#",
+        "description": "აღწერა",
+        "qty": "რაოდ.",
+        "unit": "ერთ.",
+        "price": "ფასი",
+        "total": "ჯამი",
+        "subtotalExVat": "შუალედური ჯამი (დღგ-ს გარეშე)",
+        "vat": "დღგ",
+        "totalAmount": "სულ",
+        "additionalNotes": "დამატებითი შენიშვნები",
+        "phone": "ტელეფონი"
     }
 }

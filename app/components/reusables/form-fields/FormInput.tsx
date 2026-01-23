@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input, InputProps } from "@/components/ui/input";
 
+// Utils
+import { cn } from "@/lib/utils";
+
 type FormInputProps = {
     name: string;
     label?: string;
@@ -27,6 +30,7 @@ const FormInput = ({
     labelHelper,
     placeholder,
     vertical = false,
+    className,
     ...props
 }: FormInputProps) => {
     const { control } = useFormContext();
@@ -36,7 +40,7 @@ const FormInput = ({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                     {label && <FormLabel>{`${label}:`}</FormLabel>}
 
                     {labelHelper && (
@@ -47,7 +51,7 @@ const FormInput = ({
                         <Input
                             {...field}
                             placeholder={placeholder}
-                            className="w-[13rem]"
+                            className={cn("w-full", className)}
                             {...props}
                         />
                     </FormControl>
@@ -62,19 +66,19 @@ const FormInput = ({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem>
-                    <div className="flex w-full gap-5 items-center text-sm">
-                        {label && <FormLabel className="flex-1">{`${label}:`}</FormLabel>}
+                <FormItem className="w-full">
+                    <div className="flex w-full gap-3 sm:gap-5 items-center text-sm flex-wrap sm:flex-nowrap">
+                        {label && <FormLabel className="w-full sm:flex-1 sm:min-w-[140px] whitespace-normal">{`${label}:`}</FormLabel>}
                         {labelHelper && (
                             <span className="text-xs"> {labelHelper}</span>
                         )}
 
-                        <div className="flex-1">
+                        <div className="w-full sm:flex-1">
                             <FormControl>
                                 <Input
                                     {...field}
                                     placeholder={placeholder}
-                                    className="w-[13rem]"
+                                    className={cn("w-full", className)}
                                     {...props}
                                 />
                             </FormControl>

@@ -25,6 +25,7 @@ import InvoiceTemplate3 from "@/app/components/templates/invoice-pdf/InvoiceTemp
 // Template images
 import template1 from "@/public/assets/img/invoice-1-example.png";
 import template2 from "@/public/assets/img/invoice-2-example.png";
+import template3 from "@/public/assets/img/invoice-3-example.png";
 
 // Icons
 import { Check } from "lucide-react";
@@ -54,7 +55,7 @@ const TemplateSelector = () => {
             id: 3,
             name: "Template 3 (Georgian)",
             description: "Georgian invoice format with VAT details",
-            img: template1, // Temporary placeholder
+            img: template3,
             component: <InvoiceTemplate3 {...formValues} />,
         },
     ];

@@ -47,6 +47,9 @@ const fieldValidators = {
         .transform((date) =>
             new Date(date).toLocaleDateString("en-US", DATE_OPTIONS)
         ),
+    dateOptional: z.date().optional().transform((date) =>
+        date ? new Date(date).toLocaleDateString("en-US", DATE_OPTIONS) : undefined
+    ),
 
     // Items
     quantity: z.coerce
@@ -89,12 +92,12 @@ const CustomInputSchema = z.object({
 const InvoiceSenderSchema = z.object({
     name: fieldValidators.name,
     address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode,
-    city: fieldValidators.city,
-    country: fieldValidators.country,
-    email: fieldValidators.email,
-    phone: fieldValidators.phone,
-    taxID: fieldValidators.stringOptional,
+    zipCode: fieldValidators.stringOptional,
+    city: fieldValidators.stringOptional,
+    country: fieldValidators.stringOptional,
+    email: fieldValidators.stringOptional,
+    phone: fieldValidators.stringOptional,
+    taxID: fieldValidators.stringMin1,
     swift: fieldValidators.stringOptional,
     iban: fieldValidators.stringOptional,
     directorName: fieldValidators.stringOptional,
@@ -104,11 +107,11 @@ const InvoiceSenderSchema = z.object({
 const InvoiceReceiverSchema = z.object({
     name: fieldValidators.name,
     address: fieldValidators.address,
-    zipCode: fieldValidators.zipCode,
-    city: fieldValidators.city,
-    country: fieldValidators.country,
-    email: fieldValidators.email,
-    phone: fieldValidators.phone,
+    zipCode: fieldValidators.stringOptional,
+    city: fieldValidators.stringOptional,
+    country: fieldValidators.stringOptional,
+    email: fieldValidators.stringOptional,
+    phone: fieldValidators.stringOptional,
     taxID: fieldValidators.stringOptional,
     customInputs: z.array(CustomInputSchema).optional(),
 });
@@ -125,7 +128,7 @@ const ItemSchema = z.object({
 const PaymentInformationSchema = z.object({
     bankName: fieldValidators.stringMin1,
     accountName: fieldValidators.stringMin1,
-    accountNumber: fieldValidators.stringMin1,
+    // accountNumber entfernt - SWIFT/IBAN werden von sender.swift/iban verwendet
 });
 
 const DiscountDetailsSchema = z.object({
@@ -153,20 +156,20 @@ const InvoiceDetailsSchema = z.object({
     invoiceLogo: fieldValidators.stringOptional,
     invoiceNumber: fieldValidators.stringMin1,
     invoiceDate: fieldValidators.date,
-    dueDate: fieldValidators.date,
+    dueDate: fieldValidators.dateOptional,
     purchaseOrderNumber: fieldValidators.stringOptional,
     currency: fieldValidators.string,
     language: fieldValidators.string,
     items: z.array(ItemSchema),
-    paymentInformation: PaymentInformationSchema.optional(),
-    taxDetails: TaxDetailsSchema.optional(),
+    paymentInformation: PaymentInformationSchema,
+    taxDetails: TaxDetailsSchema,
     discountDetails: DiscountDetailsSchema.optional(),
     shippingDetails: ShippingDetailsSchema.optional(),
     subTotal: fieldValidators.nonNegativeNumber,
     totalAmount: fieldValidators.nonNegativeNumber,
     totalAmountInWords: fieldValidators.string,
     additionalNotes: fieldValidators.stringOptional,
-    paymentTerms: fieldValidators.stringMin1,
+    paymentTerms: fieldValidators.stringOptional,
     signature: SignatureSchema.optional(),
     updatedAt: fieldValidators.stringOptional,
     pdfTemplate: z.number(),

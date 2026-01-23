@@ -9,7 +9,7 @@ export const ENV = process.env.NODE_ENV;
 /**
  * Websites
  */
-export const BASE_URL = "https://invoify.vercel.app";
+export const BASE_URL = "https://Mamikos_invoiceGE.vercel.app";
 export const AUTHOR_WEBSITE = "https://github.com/yourusername";
 export const AUTHOR_GITHUB = "https://github.com/yourusername";
 
@@ -29,7 +29,7 @@ export const CURRENCIES_API =
 /**
  * Local storage
  */
-export const LOCAL_STORAGE_INVOICE_DRAFT_KEY = "invoify:invoiceDraft";
+export const LOCAL_STORAGE_INVOICE_DRAFT_KEY = "Mamikos_invoiceGE:invoiceDraft";
 
 /**
  * Tailwind
@@ -53,20 +53,8 @@ export const NODEMAILER_PW = process.env.NODEMAILER_PW;
  */
 export const LOCALES = [
   { code: "en", name: "English" },
-  { code: "ka", name: "ქართული" },
   { code: "de", name: "Deutsch" },
-  { code: "it", name: "Italiano" },
-  { code: "es", name: "Español" },
-  { code: "ca", name: "Català" },
-  { code: "fr", name: "Français" },
-  { code: "ar", name: "العربية" },
-  { code: "pl", name: "Polish" },
-  { code: "pt-BR", name: "Português (Brasil)" },
-  { code: "tr", name: "Türkçe" },
-  { code: "zh-CN", name: "简体中文" },
-  { code: "ja", name: "日本語" },
-  { code: "nb-NO", name: "Norwegian (bokmål)" },
-  { code: "nn-NO", name: "Norwegian (nynorsk)" },
+  { code: "ka", name: "ქართული" },
 ];
 export const DEFAULT_LOCALE = LOCALES[0].code;
 
@@ -161,8 +149,8 @@ export const FORM_DEFAULT_VALUES = {
     currency: "USD",
     language: "English",
     taxDetails: {
-      amount: 0,
-      amountType: "amount",
+      amount: 18,
+      amountType: "percentage",
       taxID: "",
     },
     discountDetails: {
@@ -176,12 +164,11 @@ export const FORM_DEFAULT_VALUES = {
     paymentInformation: {
       bankName: "",
       accountName: "",
-      accountNumber: "",
     },
     additionalNotes: "",
     paymentTerms: "",
     totalAmountInWords: "",
-    pdfTemplate: 1,
+    pdfTemplate: 3,
   },
 };
 
@@ -239,7 +226,7 @@ export const FORM_FILL_VALUES = {
     currency: "USD",
     language: "English",
     taxDetails: {
-      amount: 15,
+      amount: 18,
       amountType: "percentage",
       taxID: "987654321",
     },
@@ -254,7 +241,6 @@ export const FORM_FILL_VALUES = {
     paymentInformation: {
       bankName: "Bank Inc.",
       accountName: "John Doe",
-      accountNumber: "445566998877",
     },
     additionalNotes: "Thank you for your business",
     paymentTerms: "Net 30",

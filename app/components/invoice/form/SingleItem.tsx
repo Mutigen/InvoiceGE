@@ -160,7 +160,6 @@ const SingleItem = ({
                 <FormInput
                     name={`${name}[${index}].name`}
                     label={_t("form.steps.lineItems.name")}
-                    placeholder="Item name"
                     vertical
                 />
 
@@ -168,7 +167,6 @@ const SingleItem = ({
                     name={`${name}[${index}].quantity`}
                     type="number"
                     label={_t("form.steps.lineItems.quantity")}
-                    placeholder={_t("form.steps.lineItems.quantity")}
                     className="w-[8rem]"
                     vertical
                 />
@@ -176,7 +174,6 @@ const SingleItem = ({
                 <FormInput
                     name={`${name}[${index}].unit`}
                     label={_t("form.steps.lineItems.unit")}
-                    placeholder="Unit (e.g., ცალი, kg)"
                     className="w-[8rem]"
                     vertical
                 />
@@ -186,7 +183,6 @@ const SingleItem = ({
                     type="number"
                     label={_t("form.steps.lineItems.rate")}
                     labelHelper={`(${currency})`}
-                    placeholder={_t("form.steps.lineItems.rate")}
                     className="w-[8rem]"
                     vertical
                 />
@@ -198,7 +194,6 @@ const SingleItem = ({
                     <Input
                         value={`${total} ${currency}`}
                         readOnly
-                        placeholder="Item total"
                         className="border-none font-medium text-lg bg-transparent"
                         size={10}
                     />
@@ -207,7 +202,6 @@ const SingleItem = ({
             <FormTextarea
                 name={`${name}[${index}].description`}
                 label={_t("form.steps.lineItems.description")}
-                placeholder="Item description"
             />
             <div>
                 {/* Not allowing deletion for first item when there is only 1 item */}

@@ -21,7 +21,7 @@ type SendPdfEmailProps = {
 };
 
 export default function SendPdfEmail({ invoiceNumber }: SendPdfEmailProps) {
-    const logo = `${BASE_URL}/assets/img/invoify-logo.png`;
+    const logo = `${BASE_URL}/assets/img/mamikosinvoice-logo.png`;
     return (
         <Html>
             <Head />
@@ -34,16 +34,16 @@ export default function SendPdfEmail({ invoiceNumber }: SendPdfEmailProps) {
                         <Section className="bg-white border-black-950 my-10 px-10 py-4 rounded-md">
                             <Img
                                 src={logo}
-                                alt="Invoify Logo"
+                                alt="Mamikos InvoiceGE Logo"
                                 width={200}
                                 height={120}
                             />
                             <Heading className="leading-tight">
-                                Thanks for using Invoify!
+                                Thanks for using Mamikos InvoiceGE!
                             </Heading>
 
                             <Text>
-                                We're pleased to inform you that your invoice{" "}
+                                We&apos;re pleased to inform you that your invoice{" "}
                                 <b>#{invoiceNumber}</b> is ready for download.
                                 Please find the attached PDF document.
                             </Text>
@@ -53,7 +53,7 @@ export default function SendPdfEmail({ invoiceNumber }: SendPdfEmailProps) {
                             <Text>
                                 Best Regards,
                                 <br />
-                                Invoify Team
+                                Mamikos InvoiceGE Team
                             </Text>
                         </Section>
                     </Container>

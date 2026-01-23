@@ -49,10 +49,10 @@ const InvoiceForm = () => {
         } else {
             return _t("form.newInvBadge");
         }
-    }, [invoiceNumber]);
+    }, [invoiceNumber, _t]);
 
     return (
-        <div className={`xl:w-[55%]`}>
+        <div className="w-full flex-1 max-w-5xl">
             <Card>
                 <CardHeader>
                     <div className="flex gap-3">
@@ -73,7 +73,7 @@ const InvoiceForm = () => {
                     <div className="space-y-8">
                         <Wizard>
                             <WizardStep>
-                                <div className="flex gap-x-20 gap-y-10">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <BillFromSection />
 
                                     <BillToSection />

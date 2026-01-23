@@ -50,6 +50,7 @@ const Items = () => {
             name: "",
             description: "",
             quantity: 0,
+            unit: "",
             unitPrice: 0,
             total: 0,
         });
@@ -80,18 +81,14 @@ const Items = () => {
             const { active, over } = event;
             setActiveId(active.id);
 
-            if (active.id !== over?.id) {
-                const oldIndex = fields.findIndex(
-                    (item) => item.id === active.id
-                );
-                const newIndex = fields.findIndex(
-                    (item) => item.id === over?.id
-                );
+            if (over && active.id !== over.id) {
+                const oldIndex = fields.findIndex((field) => field.id === active.id);
+                const newIndex = fields.findIndex((field) => field.id === over.id);
 
                 move(oldIndex, newIndex);
             }
         },
-        [fields, setValue]
+        [fields, move]
     );
 
     return (

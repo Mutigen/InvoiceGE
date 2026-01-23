@@ -15,9 +15,17 @@ const DynamicInvoiceTemplate = (props: InvoiceType) => {
     // Dynamic template component name
     const templateName = `InvoiceTemplate${props.details.pdfTemplate}`;
 
+    // Extract locale from language
+    const languageToLocale: Record<string, string> = {
+        'English': 'en',
+        'Deutsch': 'de',
+        'ქართული': 'ka'
+    };
+    const locale = languageToLocale[props.details.language] || 'en';
+
     const DynamicInvoice = useMemo(
         () =>
-            dynamic<InvoiceType>(
+            dynamic<InvoiceType & { locale?: string }>(
                 () =>
                     import(
                         `@/app/components/templates/invoice-pdf/${templateName}`
@@ -30,7 +38,7 @@ const DynamicInvoiceTemplate = (props: InvoiceType) => {
         [templateName]
     );
 
-    return <DynamicInvoice {...props} />;
+    return <DynamicInvoice {...props} locale={locale} />;
 };
 
 export default DynamicInvoiceTemplate;

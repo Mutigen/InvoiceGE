@@ -23,6 +23,10 @@
                 "country": "Land",
                 "email": "E-Mail",
                 "phone": "Telefon",
+                "taxID": "Steuernummer",
+                "swift": "SWIFT/BIC Code",
+                "iban": "IBAN",
+                "directorName": "Direktorname",
                 "addCustomInput": "Benutzerfeld hinzufügen",
                 "sender": "Sender",
                 "receiver": "Empfänger"
@@ -43,6 +47,7 @@
                 "item": "Artikel",
                 "name": "Name",
                 "quantity": "Menge",
+                "unit": "Einheit",
                 "rate": "Preis",
                 "total": "Gesamt",
                 "description": "Beschreibung",
@@ -89,5 +94,27 @@
     },
     "footer": {
         "developedBy": "Entwickelt von"
+    },
+    "template": {
+        "invoiceDate": "Rechnungsdatum",
+        "invoiceNumber": "Rechnungsnummer",
+        "billTo": "Empfänger",
+        "bankDetails": "Bankdaten",
+        "bank": "Bank",
+        "swift": "SWIFT",
+        "iban": "IBAN",
+        "currency": "Währung",
+        "director": "Direktor",
+        "number": "#",
+        "description": "Beschreibung",
+        "qty": "Menge",
+        "unit": "Einheit",
+        "price": "Preis",
+        "total": "Gesamt",
+        "subtotalExVat": "Zwischensumme (ohne MwSt.)",
+        "vat": "MwSt.",
+        "totalAmount": "GESAMT",
+        "additionalNotes": "Zusätzliche Hinweise",
+        "phone": "Telefon"
     }
 }

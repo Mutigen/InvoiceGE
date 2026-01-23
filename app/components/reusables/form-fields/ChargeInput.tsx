@@ -68,7 +68,7 @@ const ChargeInput = ({
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            className="w-[7rem]"
+                                            className="w-full min-w-[7rem] max-w-[10rem]"
                                             placeholder={label}
                                             type="number"
                                             min="0"

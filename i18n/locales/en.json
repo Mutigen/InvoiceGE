@@ -23,6 +23,10 @@
                 "country": "Country",
                 "email": "Email",
                 "phone": "Phone",
+                "taxID": "Tax ID",
+                "swift": "SWIFT/BIC Code",
+                "iban": "IBAN",
+                "directorName": "Director Name",
                 "addCustomInput": "Add Custom Input",
                 "sender": "Sender",
                 "receiver": "Receiver"
@@ -43,6 +47,7 @@
                 "item": "Item",
                 "name": "Name",
                 "quantity": "Quantity",
+                "unit": "Unit",
                 "rate": "Rate",
                 "total": "Total",
                 "description": "Description",
@@ -89,5 +94,27 @@
     },
     "footer": {
         "developedBy": "Developed by"
+    },
+    "template": {
+        "invoiceDate": "Invoice Date",
+        "invoiceNumber": "Invoice Number",
+        "billTo": "Bill To",
+        "bankDetails": "Bank Details",
+        "bank": "Bank",
+        "swift": "SWIFT",
+        "iban": "IBAN",
+        "currency": "Currency",
+        "director": "Director",
+        "number": "#",
+        "description": "Description",
+        "qty": "Qty",
+        "unit": "Unit",
+        "price": "Price",
+        "total": "Total",
+        "subtotalExVat": "Subtotal (ex VAT)",
+        "vat": "VAT",
+        "totalAmount": "TOTAL",
+        "additionalNotes": "Additional Notes",
+        "phone": "Phone"
     }
 }

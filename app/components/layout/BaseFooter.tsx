@@ -17,7 +17,7 @@ const BaseFooter = () => {
                     target="_blank"
                     style={{ textDecoration: "underline" }}
                 >
-                    InvoiceGE Team
+                    MAMIKO von MUT-i-GEN
                 </a>
             </p>
         </footer>
