@@ -1,5 +1,5 @@
 {
-  "name": "InvoiceGE - Georgian Invoice Generator",
+  "name": "InvoiceGE",
   "short_name": "InvoiceGE",
   "description": "Professional invoice generator for Georgian businesses with VAT support",
   "start_url": "/",
