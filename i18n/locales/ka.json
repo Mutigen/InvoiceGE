@@ -38,6 +38,8 @@
                     "placeholder": "ატვირთეთ სურათი"
                 },
                 "invoiceNumber": "ინვოისის ნომერი",
+                "invoiceNumberPlaceholder": "ინვოისის ნომერი",
+                "generateNewNumber": "ახალი ნომრის გენერირება",
                 "issuedDate": "გამოცემის თარიღი",
                 "dueDate": "გადახდის ვადა",
                 "currency": "ვალუტა"
@@ -87,9 +89,19 @@
         "title": "მოქმედებები",
         "description": "ოპერაციები და გადახედვა",
         "loadInvoice": "ჩატვირთე ინვოისი",
+        "loadInvoiceTooltip": "ინვოისის ჩატვირთვის მენიუს გახსნა",
         "exportInvoice": "ექსპორტი",
+        "exportInvoiceTooltip": "ინვოისის ექსპორტის მენიუს გახსნა",
         "newInvoice": "ახალი ინვოისი",
+        "newInvoiceTooltip": "ახალი ინვოისის ფორმის მიღება",
+        "resetFormTitle": "ფორმის განულება?",
+        "resetFormDescription": "ეს გაასუფთავებს ყველა ველს და შენახულ მონახაზს.",
+        "resetFormConfirm": "განულება",
+        "resetFormTooltip": "მთელი ფორმის განულება",
+        "resetFormButton": "ფორმის განულება",
         "generatePdf": "PDF გენერაცია",
+        "generatePdfTooltip": "ინვოისის გენერაცია",
+        "generatePdfLoading": "ინვოისი გენერირდება",
         "pdfView": "PDF ნახვა"
     },
     "footer": {
@@ -116,5 +128,30 @@
         "totalAmount": "სულ",
         "additionalNotes": "დამატებითი შენიშვნები",
         "phone": "ტელეფონი"
+    },
+    "pdf": {
+        "invoice": "ინვოისი",
+        "billFrom": "გამგზავნი",
+        "billTo": "მიმღები",
+        "invoiceNumber": "ინვოისის ნომერი",
+        "invoiceDate": "ინვოისის თარიღი",
+        "dueDate": "გადახდის ვადა",
+        "item": "პროდუქტი",
+        "quantity": "რაოდენობა",
+        "unitPrice": "ერთეულის ფასი",
+        "amount": "თანხა",
+        "subtotal": "შუალედური ჯამი",
+        "tax": "დღგ",
+        "discount": "ფასდაკლება",
+        "shipping": "მიწოდება",
+        "total": "სულ",
+        "totalInWords": "თანხა სიტყვიერად",
+        "additionalNotes": "დამატებითი შენიშვნები",
+        "paymentTerms": "გადახდის პირობები",
+        "paymentInstructions": "გადახდა გაიგზავნოს ამ მისამართზე",
+        "bank": "ბანკი",
+        "accountName": "ანგარიშის სახელი",
+        "questionsContact": "თუ ამ ინვოისთან დაკავშირებით გქონდეთ კითხვები, გამოიყენეთ ეს საკონტაქტო ინფორმაცია",
+        "signature": "ხელმოწერა"
     }
 }

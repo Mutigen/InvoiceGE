@@ -29,7 +29,7 @@ const InvoiceActions = () => {
 
   const { _t } = useTranslationContext();
   return (
-    <div className={`xl:w-[45%]`}>
+    <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0">
       <Card className="h-auto sticky top-0 px-2">
         <CardHeader>
           <CardTitle>{_t("actions.title")}</CardTitle>
@@ -42,7 +42,7 @@ const InvoiceActions = () => {
             <InvoiceLoaderModal>
               <BaseButton
                 variant="outline"
-                tooltipLabel="Open load invoice menu"
+                tooltipLabel={_t("actions.loadInvoiceTooltip")}
                 disabled={invoicePdfLoading}
               >
                 <FolderUp />
@@ -54,7 +54,7 @@ const InvoiceActions = () => {
             <InvoiceExportModal>
               <BaseButton
                 variant="outline"
-                tooltipLabel="Open load invoice menu"
+                tooltipLabel={_t("actions.exportInvoiceTooltip")}
                 disabled={invoicePdfLoading}
               >
                 <Import />
@@ -68,7 +68,7 @@ const InvoiceActions = () => {
             <NewInvoiceAlert>
               <BaseButton
                 variant="outline"
-                tooltipLabel="Get a new invoice form"
+                tooltipLabel={_t("actions.newInvoiceTooltip")}
                 disabled={invoicePdfLoading}
               >
                 <Plus />
@@ -78,27 +78,27 @@ const InvoiceActions = () => {
 
             {/* Reset form button */}
             <NewInvoiceAlert
-              title="Reset form?"
-              description="This will clear all fields and the saved draft."
-              confirmLabel="Reset"
+              title={_t("actions.resetFormTitle")}
+              description={_t("actions.resetFormDescription")}
+              confirmLabel={_t("actions.resetFormConfirm")}
               onConfirm={newInvoice}
             >
               <BaseButton
                 variant="destructive"
-                tooltipLabel="Reset entire form"
+                tooltipLabel={_t("actions.resetFormTooltip")}
                 disabled={invoicePdfLoading}
               >
                 <RotateCcw />
-                Reset Form
+                {_t("actions.resetFormButton")}
               </BaseButton>
             </NewInvoiceAlert>
 
             {/* Generate pdf button */}
             <BaseButton
               type="submit"
-              tooltipLabel="Generate your invoice"
+              tooltipLabel={_t("actions.generatePdfTooltip")}
               loading={invoicePdfLoading}
-              loadingText="Generating your invoice"
+              loadingText={_t("actions.generatePdfLoading")}
             >
               <FileInput />
               {_t("actions.generatePdf")}

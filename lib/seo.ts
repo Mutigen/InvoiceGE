@@ -1,19 +1,24 @@
 import { AUTHOR_WEBSITE, BASE_URL } from "@/lib/variables";
 
 export const ROOTKEYWORDS = [
-    "invoice",
-    "invoice generator",
-    "invoice generating",
-    "invoice app",
-    "invoice generator app",
-    "free invoice generator",
+    "Mamikos InvoiceGE",
+    "Georgian invoice generator",
+    "Georgia VAT invoice",
+    "VAT / დღგ invoice",
+    "tax compliant invoices Georgia",
+    "multilingual invoice app",
+    "PDF invoice maker",
+    "email invoice export",
+    "Next.js invoice app",
+    "professional invoice template",
 ];
 
 export const JSONLD = {
     "@context": "https://schema.org",
     "@type": "Website",
     name: "Mamikos InvoiceGE",
-    description: "An Invoice Generator Web App",
+    description:
+        "Mamikos InvoiceGE ist ein professioneller georgischer Rechnungsgenerator mit VAT/დღგ-Unterstützung, mehrsprachigen Vorlagen sowie PDF- und E-Mail-Export.",
     keywords: ROOTKEYWORDS,
     url: BASE_URL,
     image: `${BASE_URL}/_next/static/media/mamikosinvoice-logo.svg`,

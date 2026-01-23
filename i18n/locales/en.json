@@ -38,6 +38,8 @@
                     "placeholder": "Click to upload image"
                 },
                 "invoiceNumber": "Invoice Number",
+                "invoiceNumberPlaceholder": "Invoice number",
+                "generateNewNumber": "Generate New Number",
                 "issuedDate": "Issue Date",
                 "dueDate": "Due Date",
                 "currency": "Currency"
@@ -87,9 +89,19 @@
         "title": "Actions",
         "description": "Operations and preview",
         "loadInvoice": "Load Invoice",
+        "loadInvoiceTooltip": "Open load invoice menu",
         "exportInvoice": "Export Invoice",
+        "exportInvoiceTooltip": "Open export invoice menu",
         "newInvoice": "New Invoice",
+        "newInvoiceTooltip": "Get a new invoice form",
+        "resetFormTitle": "Reset form?",
+        "resetFormDescription": "This will clear all fields and the saved draft.",
+        "resetFormConfirm": "Reset",
+        "resetFormTooltip": "Reset entire form",
+        "resetFormButton": "Reset Form",
         "generatePdf": "Generate PDF",
+        "generatePdfTooltip": "Generate your invoice",
+        "generatePdfLoading": "Generating your invoice",
         "pdfView": "PDF View"
     },
     "footer": {
@@ -116,5 +128,30 @@
         "totalAmount": "TOTAL",
         "additionalNotes": "Additional Notes",
         "phone": "Phone"
+    },
+    "pdf": {
+        "invoice": "Invoice",
+        "billFrom": "Bill From",
+        "billTo": "Bill To",
+        "invoiceNumber": "Invoice #",
+        "invoiceDate": "Invoice Date",
+        "dueDate": "Due Date",
+        "item": "Item",
+        "quantity": "Quantity",
+        "unitPrice": "Unit Price",
+        "amount": "Amount",
+        "subtotal": "Subtotal",
+        "tax": "Tax",
+        "discount": "Discount",
+        "shipping": "Shipping",
+        "total": "Total",
+        "totalInWords": "Total in words",
+        "additionalNotes": "Additional notes",
+        "paymentTerms": "Payment terms",
+        "paymentInstructions": "Please send the payment to this address",
+        "bank": "Bank",
+        "accountName": "Account name",
+        "questionsContact": "If you have any questions concerning this invoice, use the following contact information",
+        "signature": "Signature"
     }
 }

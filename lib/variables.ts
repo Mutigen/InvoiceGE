@@ -9,9 +9,9 @@ export const ENV = process.env.NODE_ENV;
 /**
  * Websites
  */
-export const BASE_URL = "https://Mamikos_invoiceGE.vercel.app";
-export const AUTHOR_WEBSITE = "https://github.com/yourusername";
-export const AUTHOR_GITHUB = "https://github.com/yourusername";
+export const BASE_URL = "https://invoicege.example.com";
+export const AUTHOR_WEBSITE = "https://github.com/Mutigen";
+export const AUTHOR_GITHUB = "https://github.com/Mutigen/InvoiceGE";
 
 /**
  * API endpoints

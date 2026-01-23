@@ -64,7 +64,9 @@ const InvoiceDetails = () => {
                         <FormInput
                             name="details.invoiceNumber"
                             label={_t("form.steps.invoiceDetails.invoiceNumber")}
-                            placeholder="Invoice number"
+                            placeholder={_t(
+                                "form.steps.invoiceDetails.invoiceNumberPlaceholder"
+                            )}
                         />
                         <BaseButton
                             type="button"
@@ -74,7 +76,7 @@ const InvoiceDetails = () => {
                             className="w-fit"
                         >
                             <RefreshCw className="w-4 h-4" />
-                            Generate New Number
+                            {_t("form.steps.invoiceDetails.generateNewNumber")}
                         </BaseButton>
                     </div>
 

@@ -38,6 +38,8 @@
                     "placeholder": "Bild hochladen"
                 },
                 "invoiceNumber": "Rechnungsnummer",
+                "invoiceNumberPlaceholder": "Rechnungsnummer",
+                "generateNewNumber": "Neue Nummer generieren",
                 "issuedDate": "Ausstellungsdatum",
                 "dueDate": "Fälligkeitsdatum",
                 "currency": "Währung"
@@ -87,9 +89,19 @@
         "title": "Aktionen",
         "description": "Operationen und Vorschau",
         "loadInvoice": "Rechnung laden",
+        "loadInvoiceTooltip": "Lade-Menü öffnen",
         "exportInvoice": "Rechnung exportieren",
+        "exportInvoiceTooltip": "Export-Menü öffnen",
         "newInvoice": "Neue Rechnung",
+        "newInvoiceTooltip": "Neues Rechnungsformular öffnen",
+        "resetFormTitle": "Formular zurücksetzen?",
+        "resetFormDescription": "Damit werden alle Felder und der gespeicherte Entwurf gelöscht.",
+        "resetFormConfirm": "Zurücksetzen",
+        "resetFormTooltip": "Gesamtes Formular zurücksetzen",
+        "resetFormButton": "Formular zurücksetzen",
         "generatePdf": "PDF generieren",
+        "generatePdfTooltip": "Rechnung erstellen",
+        "generatePdfLoading": "Rechnung wird erstellt",
         "pdfView": "PDF-Ansicht"
     },
     "footer": {
@@ -116,5 +128,30 @@
         "totalAmount": "GESAMT",
         "additionalNotes": "Zusätzliche Hinweise",
         "phone": "Telefon"
+    },
+    "pdf": {
+        "invoice": "Rechnung",
+        "billFrom": "Absender",
+        "billTo": "Empfänger",
+        "invoiceNumber": "Rechnungsnr.",
+        "invoiceDate": "Rechnungsdatum",
+        "dueDate": "Fälligkeitsdatum",
+        "item": "Artikel",
+        "quantity": "Menge",
+        "unitPrice": "Einzelpreis",
+        "amount": "Betrag",
+        "subtotal": "Zwischensumme",
+        "tax": "Steuer",
+        "discount": "Rabatt",
+        "shipping": "Versand",
+        "total": "Gesamt",
+        "totalInWords": "Betrag in Worten",
+        "additionalNotes": "Zusätzliche Hinweise",
+        "paymentTerms": "Zahlungsbedingungen",
+        "paymentInstructions": "Bitte überweisen Sie den Betrag an folgende Adresse",
+        "bank": "Bank",
+        "accountName": "Kontoinhaber",
+        "questionsContact": "Bei Fragen zu dieser Rechnung wenden Sie sich bitte an",
+        "signature": "Unterschrift"
     }
 }
