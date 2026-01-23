@@ -35,26 +35,25 @@ const InvoiceTemplate3 = (data: InvoiceType & { locale?: string }) => {
                             className="mb-2"
                         />
                     )}
-                    <h1 className="text-xl font-bold text-gray-900">
+                    <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100">
                         {sender.name}
                     </h1>
                 </div>
                 <div className="text-right">
-                    <p className="text-sm text-gray-600">
-                        <span className="font-semibold">ინვოისის თარიღი:</span>{" "}
+                    <p className="text-sm text-gray-600 dark:text-slate-400">
+                        <span className="font-semibold text-gray-900 dark:text-slate-200">ინვოისის თარიღი:</span>{" "}
                         {details.invoiceDate ? new Date(details.invoiceDate).toLocaleDateString(
                             "ka-GE",
                             SHORT_DATE_OPTIONS
                         ) : ''}
                     </p>
-                    <p className="text-sm text-gray-600">
-                        <span className="font-semibold">ინვოისის ნომერი:</span>{" "}
-                        <span className="text-blue-600 font-bold">
+                    <p className="text-sm text-gray-600 dark:text-slate-400">
+                        <span className="font-semibold text-gray-900 dark:text-slate-200">ინვოისის ნომერი:</span>{" "}
+                        <span className="text-blue-600 dark:text-blue-400 font-bold">
                             {details.invoiceNumber}
                         </span>
                     </p>
                 </div>
-            </div>
 
             {/* Bill From, Bill To & Bank Details Section */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
