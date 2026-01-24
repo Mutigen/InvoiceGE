@@ -14,10 +14,8 @@ export default function LivePreview({ data }: LivePreviewProps) {
     return (
         <>
             <Subheading>Live Preview:</Subheading>
-            <div className="light">
-                <div className="border border-gray-300 rounded-xl my-1 bg-white p-6 shadow-sm">
-                    <DynamicInvoiceTemplate {...data} locale={locale} />
-                </div>
+            <div className="preview-light border border-gray-300 rounded-xl my-1 bg-white p-6 shadow-sm">
+                <DynamicInvoiceTemplate {...data} locale={locale} />
             </div>
         </>
     );

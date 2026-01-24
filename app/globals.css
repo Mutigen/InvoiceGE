@@ -179,3 +179,24 @@ button {
 .rdp-vhidden {
     @apply hidden;
 }
+/* Live Preview Light Theme Override */
+.preview-light {
+  color-scheme: light;
+  
+  /* Force light theme variables */
+  --background: 0 0% 100%;           /* white */
+  --foreground: 222.2 84% 4.9%;      /* dark gray/black */
+  --card: 0 0% 100%;                 /* white */
+  --card-foreground: 222.2 84% 4.9%; /* dark gray/black */
+  --muted: 210 40% 96.1%;            /* light gray */
+  --muted-foreground: 215.4 16.3% 46.9%; /* medium gray */
+  --border: 214.3 31.8% 91.4%;       /* light border */
+  --input: 214.3 31.8% 91.4%;        /* light input */
+  --primary: 222.2 47.4% 11.2%;      /* dark */
+  --primary-foreground: 210 40% 98%; /* light */
+}
+
+.preview-light * {
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
