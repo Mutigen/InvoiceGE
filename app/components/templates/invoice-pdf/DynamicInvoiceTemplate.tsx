@@ -9,11 +9,11 @@ import { InvoiceType } from "@/types";
 import InvoiceTemplate1 from "@/app/components/templates/invoice-pdf/InvoiceTemplate1";
 
 interface DynamicInvoiceTemplateProps extends InvoiceType {
-    locale: string;  // ✅ Füge locale hinzu!
+    locale: string;
 }
 
-const DynamicInvoiceTemplate = ({ locale, ...props }: DynamicInvoiceTemplateProps) => {
-    return <InvoiceTemplate1 {...props} />;
+const DynamicInvoiceTemplate = (props: DynamicInvoiceTemplateProps) => {
+    return <InvoiceTemplate1 {...props} />;  // ✅ Alle Props inkl. locale!
 };
 
 export default DynamicInvoiceTemplate;
