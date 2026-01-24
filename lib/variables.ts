@@ -1,17 +1,20 @@
 // Types
 import { SignatureColor, SignatureFont } from "@/types";
 
+
 /**
  * Environment
  */
 export const ENV = process.env.NODE_ENV;
 
+
 /**
  * Websites
  */
-export const BASE_URL = "https://invoicege.example.com";
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 export const AUTHOR_WEBSITE = "https://github.com/Mutigen";
 export const AUTHOR_GITHUB = "https://github.com/Mutigen/InvoiceGE";
+
 
 /**
  * API endpoints
@@ -20,22 +23,26 @@ export const GENERATE_PDF_API = "/api/invoice/generate";
 export const SEND_PDF_API = "/api/invoice/send";
 export const EXPORT_INVOICE_API = "/api/invoice/export";
 
+
 /**
  * External API endpoints
  */
 export const CURRENCIES_API =
   "https://openexchangerates.org/api/currencies.json";
 
+
 /**
  * Local storage
  */
 export const LOCAL_STORAGE_INVOICE_DRAFT_KEY = "Mamikos_invoiceGE:invoiceDraft";
 
+
 /**
  * Tailwind
  */
 export const TAILWIND_CDN =
-  "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
+  "https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css";
+
 
 /**
  * Nodemailer
@@ -43,15 +50,17 @@ export const TAILWIND_CDN =
 export const NODEMAILER_EMAIL = process.env.NODEMAILER_EMAIL;
 export const NODEMAILER_PW = process.env.NODEMAILER_PW;
 
+
 /**
  * I18N
  */
 export const LOCALES = [
+  { code: "ka", name: "ქართული" },
   { code: "en", name: "English" },
   { code: "de", name: "Deutsch" },
-  { code: "ka", name: "ქართული" },
 ];
 export const DEFAULT_LOCALE = LOCALES[0].code;
+
 
 /**
  * Signature variables
@@ -65,6 +74,7 @@ export const SIGNATURE_COLORS: SignatureColor[] = [
     color: "#DC143C",
   },
 ];
+
 
 export const SIGNATURE_FONTS: SignatureFont[] = [
   {
@@ -82,6 +92,7 @@ export const SIGNATURE_FONTS: SignatureFont[] = [
   },
 ];
 
+
 /**
  * Form date options
  */
@@ -91,11 +102,13 @@ export const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   day: "numeric",
 };
 
+
 export const SHORT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   year: "numeric",
   month: "short",
   day: "numeric",
 };
+
 
 /**
  * Form defaults
@@ -141,8 +154,8 @@ export const FORM_DEFAULT_VALUES = {
         total: 0,
       },
     ],
-    currency: "USD",
-    language: "English",
+    currency: "GEL",
+    language: "ქართული",
     taxDetails: {
       amount: 18,
       amountType: "percentage",
@@ -163,9 +176,10 @@ export const FORM_DEFAULT_VALUES = {
     additionalNotes: "",
     paymentTerms: "",
     totalAmountInWords: "",
-    pdfTemplate: 3,
+    pdfTemplate: 1,
   },
 };
+
 
 /**
  * ? DEV Only
@@ -197,8 +211,8 @@ export const FORM_FILL_VALUES = {
   details: {
     invoiceLogo: "",
     invoiceNumber: "GE-2026-001",
-    invoiceDate: new Date(),
-    dueDate: new Date(),
+    invoiceDate: new Date().toISOString(),
+    dueDate: new Date().toISOString(),
     items: [
       {
         name: "Software Lizenz",
@@ -223,7 +237,7 @@ export const FORM_FILL_VALUES = {
       },
     ],
     currency: "GEL",
-    language: "Deutsch",
+    language: "ქართული",
     taxDetails: {
       amount: 18,
       amountType: "percentage",
@@ -246,9 +260,9 @@ export const FORM_FILL_VALUES = {
     signature: {
       data: "",
     },
-    subTotal: "1580",
-    totalAmount: "1864.4",
+    subTotal: 1580,
+    totalAmount: 1864.4,
     totalAmountInWords: "One thousand eight hundred sixty four",
-    pdfTemplate: 3,
+    pdfTemplate: 1,
   },
 };

@@ -84,11 +84,10 @@ export const InvoiceContextProvider = ({
 
   /**
    * Get default form values with locale-specific PDF template
-   * ka (Georgian) → Template 3
-   * en, de (English, German) → Template 1
+   * Only Template 1 is available.
    */
   const getLocaleSpecificDefaults = useCallback(() => {
-    const defaultTemplate = locale === "ka" ? 3 : 1;
+    const defaultTemplate = 1;
     const defaultLanguage =
       locale === "de" ? "Deutsch" : locale === "ka" ? "ქართული" : "English";
     const defaultCurrency =

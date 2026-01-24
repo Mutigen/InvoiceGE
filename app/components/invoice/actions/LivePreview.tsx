@@ -1,7 +1,7 @@
-// Components
-import { DynamicInvoiceTemplate, Subheading } from "@/app/components";
+"use client";
 
-// Types
+import { useLocale } from "next-intl";
+import { DynamicInvoiceTemplate, Subheading } from "@/app/components";
 import { InvoiceType } from "@/types";
 
 type LivePreviewProps = {
@@ -9,11 +9,13 @@ type LivePreviewProps = {
 };
 
 export default function LivePreview({ data }: LivePreviewProps) {
+    const locale = useLocale();
+
     return (
         <>
             <Subheading>Live Preview:</Subheading>
             <div className="border dark:border-gray-600 rounded-xl my-1">
-                <DynamicInvoiceTemplate {...data} />
+                <DynamicInvoiceTemplate {...data} locale={locale} />
             </div>
         </>
     );

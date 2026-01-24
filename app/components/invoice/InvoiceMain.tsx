@@ -2,9 +2,10 @@
 
 import { useFormContext } from "react-hook-form";
 import { Form } from "@/components/ui/form";
-import { InvoiceActions, InvoiceForm } from "@/app/components";
+import { InvoiceActions, InvoiceForm, DevDebug } from "@/app/components"; // ← Import hinzufügen
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { InvoiceType } from "@/types";
+import { ENV } from "@/lib/variables"; // ← Import hinzufügen
 
 const InvoiceMain = () => {
     const { handleSubmit } = useFormContext<InvoiceType>();
@@ -12,6 +13,9 @@ const InvoiceMain = () => {
 
     return (
         <Form {...useFormContext<InvoiceType>()}>
+            {/* DEV Debug Panel - nur in Development */}
+            {ENV === "development" && <DevDebug />}
+            
             <form
                 onSubmit={handleSubmit(onFormSubmit, (err) => console.log(err))}
                 className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start"

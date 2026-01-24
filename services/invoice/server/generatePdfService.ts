@@ -1,25 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// Chromium
 import chromium from "@sparticuz/chromium";
-
-// Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
-
-// Variables
 import { ENV, TAILWIND_CDN } from "@/lib/variables";
-
-// Types
 import { InvoiceType } from "@/types";
 
-/**
- * Generate a PDF document of an invoice based on the provided data.
- *
- * @async
- * @param {NextRequest} req - The Next.js request object.
- * @throws {Error} If there is an error during the PDF generation process.
- * @returns {Promise<NextResponse>} A promise that resolves to a NextResponse object containing the generated PDF.
- */
 export async function generatePdfService(req: NextRequest) {
     const body: InvoiceType = await req.json();
     let browser;
@@ -28,14 +12,12 @@ export async function generatePdfService(req: NextRequest) {
     try {
         const ReactDOMServer = (await import("react-dom/server")).default;
         const React = (await import("react")).default;
-        const templateId = body.details.pdfTemplate;
-        const InvoiceTemplate = await getInvoiceTemplate(templateId);
+        const InvoiceTemplate = await getInvoiceTemplate(1);
 
         if (!InvoiceTemplate) {
-            throw new Error(`Invoice template ${templateId} not found`);
+            throw new Error(`Invoice template not found`);
         }
 
-        // Extract locale from language
         const languageToLocale: Record<string, string> = {
             'English': 'en',
             'Deutsch': 'de',
@@ -46,6 +28,20 @@ export async function generatePdfService(req: NextRequest) {
         const htmlTemplate = ReactDOMServer.renderToStaticMarkup(
             React.createElement(InvoiceTemplate, { ...body, locale })
         );
+
+        const fullHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        ${htmlTemplate}
+    </body>
+    </html>
+`;
 
         if (ENV === "production") {
             const puppeteer = (await import("puppeteer-core")).default;
@@ -67,14 +63,12 @@ export async function generatePdfService(req: NextRequest) {
         }
 
         page = await browser.newPage();
-        await page.setContent(htmlTemplate, {  // ← HIER: await entfernt
+        await page.setContent(fullHtml, {
             waitUntil: ["networkidle0", "load", "domcontentloaded"],
             timeout: 30000,
         });
-
-        await page.addStyleTag({
-            url: TAILWIND_CDN,
-        });
+       // Wait for page to fully render
+await new Promise(resolve => setTimeout(resolve, 2000));
 
         const pdf: Uint8Array = await page.pdf({
             format: "a4",
@@ -94,7 +88,10 @@ export async function generatePdfService(req: NextRequest) {
     } catch (error: any) {
         console.error("PDF Generation Error:", error);
         return new NextResponse(
-            JSON.stringify({ error: "Failed to generate PDF" }),
+            JSON.stringify({ 
+                error: "Failed to generate PDF", 
+                details: error.message 
+            }),
             {
                 status: 500,
                 headers: {

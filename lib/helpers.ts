@@ -1,3 +1,5 @@
+// lib/helpers.ts (VOLLSTÄNDIG - Copy & Paste Ready)
+
 // Next
 import { NextResponse } from "next/server";
 
@@ -10,9 +12,8 @@ import { CurrencyDetails } from "@/types";
 
 /**
  * Formats a number with commas and decimal places
- *
- * @param {number} number - Number to format
- * @returns {string} A styled number to be displayed on the invoice
+ * @param number - Number to format
+ * @returns A styled number to be displayed on the invoice
  */
 const formatNumberWithCommas = (number: number) => {
     return number.toLocaleString("en-US", {
@@ -23,35 +24,25 @@ const formatNumberWithCommas = (number: number) => {
 };
 
 /**
- * @param {string} currency - The currency that is currently selected 
- * @returns {Object} - An object containing the currency details as
- * ```
- * {
-    "currency": "United Arab Emirates Dirham",
-    "decimals": 2,
-    "beforeDecimal": "Dirham",
-    "afterDecimal": "Fils"
- }
+ * @param currency - The currency that is currently selected
+ * @returns Object - An object containing the currency details
  */
- const fetchCurrencyDetails = (currency: string): CurrencyDetails | null => {
+const fetchCurrencyDetails = (currency: string): CurrencyDetails | null => {
     const data = currenciesDetails as Record<string, CurrencyDetails>;
     const currencyDetails = data[currency];
     return currencyDetails || null;
 };
 
-
 /**
  * Turns a number into words for invoices
- *
- * @param {number} price - Number to format
- * @returns {string} Number in words
+ * @param price - Number to format
+ * @returns Number in words
  */
 const formatPriceToString = (price: number, currency: string): string => {
     // Initialize variables
-    let decimals : number;
+    let decimals: number;
     let beforeDecimal: string | null = null;
     let afterDecimal: string | null = null;
-    
     const currencyDetails = fetchCurrencyDetails(currency);
 
     // If currencyDetails is available, use its values, else dynamically set decimals
@@ -62,8 +53,8 @@ const formatPriceToString = (price: number, currency: string): string => {
     } else {
         // Dynamically get decimals from the price if currencyDetails is null
         const priceString = price.toString();
-        const decimalIndex = priceString.indexOf('.');
-        decimals = decimalIndex !== -1 ? priceString.split('.')[1].length : 0;
+        const decimalIndex = priceString.indexOf(".");
+        decimals = decimalIndex !== -1 ? priceString.split(".")[1].length : 0;
     }
 
     // Ensure the price is rounded to the appropriate decimal places
@@ -71,20 +62,19 @@ const formatPriceToString = (price: number, currency: string): string => {
 
     // Split the price into integer and fractional parts
     const integerPart = Math.floor(roundedPrice);
-    
     const fractionalMultiplier = Math.pow(10, decimals);
-    const fractionalPart = Math.round((roundedPrice - integerPart) * fractionalMultiplier);
+    const fractionalPart = Math.round(
+        (roundedPrice - integerPart) * fractionalMultiplier
+    );
 
     // Convert the integer part to words with a capitalized first letter
     const integerPartInWords = numberToWords
         .toWords(integerPart)
-        .replace(/^\w/, (c) => c.toUpperCase());
+        .replace(/^./, (c) => c.toUpperCase());
 
     // Convert fractional part to words
     const fractionalPartInWords =
-        fractionalPart > 0
-            ? numberToWords.toWords(fractionalPart)
-            : null;
+        fractionalPart > 0 ? numberToWords.toWords(fractionalPart) : null;
 
     // Handle zero values for both parts
     if (integerPart === 0 && fractionalPart === 0) {
@@ -94,49 +84,44 @@ const formatPriceToString = (price: number, currency: string): string => {
     // Combine the parts into the final string
     let result = integerPartInWords;
 
-    // Check if beforeDecimal is not null 
+    // Check if beforeDecimal is not null
     if (beforeDecimal !== null) {
         result += ` ${beforeDecimal}`;
     }
 
-    if (fractionalPartInWords) {
-        // Check if afterDecimal is not null
-        if (afterDecimal !== null) {
-            // Concatenate the after decimal and fractional part
-            result += ` and ${fractionalPartInWords} ${afterDecimal}`;
-        } else {
-            // If afterDecimal is null, concatenate the fractional part
-            result += ` point ${fractionalPartInWords}`;
-        }
+    // Add fractional part if it exists
+    if (fractionalPartInWords !== null && afterDecimal !== null) {
+        result += ` and ${fractionalPartInWords} ${afterDecimal}`;
     }
 
     return result;
 };
 
 /**
- * This method flattens a nested object. It is used for xlsx export
- *
- * @param {Record<string, T>} obj - A nested object to flatten
- * @param {string} parentKey - The parent key
- * @returns {Record<string, T>} A flattened object
+ * Flattens a nested object into a single level object with dot notation keys.
+ * @param obj - The object to flatten
+ * @param parentKey - The parent key for nested properties
+ * @returns A flattened object
  */
-const flattenObject = <T>(
-    obj: Record<string, T>,
-    parentKey = ""
-): Record<string, T> => {
-    const result: Record<string, T> = {};
+const flattenObject = (
+    obj: Record<string, any>,
+    parentKey: string = ""
+): Record<string, any> => {
+    let result: Record<string, any> = {};
 
     for (const key in obj) {
-        if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
-            const flattened = flattenObject(
-                obj[key] as Record<string, T>,
-                parentKey + key + "_"
-            );
-            for (const subKey in flattened) {
-                result[parentKey + subKey] = flattened[subKey];
+        if (obj.hasOwnProperty(key)) {
+            const newKey = parentKey ? `${parentKey}.${key}` : key;
+
+            if (
+                typeof obj[key] === "object" &&
+                obj[key] !== null &&
+                !Array.isArray(obj[key])
+            ) {
+                Object.assign(result, flattenObject(obj[key], newKey));
+            } else {
+                result[newKey] = obj[key];
             }
-        } else {
-            result[parentKey + key] = obj[key];
         }
     }
 
@@ -144,61 +129,45 @@ const flattenObject = <T>(
 };
 
 /**
- * A method to validate an email address
- *
- * @param {string} email - Email to validate
- * @returns {boolean} A boolean indicating if the email is valid
+ * Validates an email address.
+ * @param email - The email address to validate
+ * @returns true if valid, false otherwise
  */
-const isValidEmail = (email: string) => {
-    // Regular expression for a simple email pattern
-    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 };
 
 /**
- * A method to check if a string is a data URL
- *
- * @param {string} str - String to check
- * @returns {boolean} Boolean indicating if the string is a data URL
+ * Checks if a string is a data URL (base64 encoded image)
+ * @param str - The string to check
+ * @returns true if it's a data URL, false otherwise
  */
-const isDataUrl = (str: string) => str.startsWith("data:");
+const isDataUrl = (str: string): boolean => {
+    return /^data:image\/(png|jpg|jpeg|gif|svg\+xml);base64,/.test(str);
+};
 
 /**
- * Dynamically imports and retrieves an invoice template React component based on the provided template ID.
- *
- * @param {number} templateId - The ID of the invoice template.
- * @returns {Promise<React.ComponentType<any> | null>} A promise that resolves to the invoice template component or null if not found.
- * @throws {Error} Throws an error if there is an issue with the dynamic import or if a default template is not available.
+ * Get the invoice template component dynamically.
+ * Only Template 1 is available.
+ * @param templateId - The template ID (currently only 1 is supported)
+ * @returns The invoice template component
  */
-const getInvoiceTemplate = async (templateId: number) => {
-    // Dynamic template component name
-    const componentName = `InvoiceTemplate${templateId}`;
-
-    try {
-        const templateModule = await import(
-            `@/app/components/templates/invoice-pdf/${componentName}`
-        );
-        return templateModule.default;
-    } catch (err) {
-        console.error(`Error importing template ${componentName}: ${err}`);
-
-        // Provide a default template
-        return null;
-    }
+export const getInvoiceTemplate = async (templateId: number) => {
+    // Only Template 1 exists
+    return (await import("@/app/components/templates/invoice-pdf/InvoiceTemplate1")).default;
 };
 
 /**
  * Convert a file to a buffer. Used for sending invoice as email attachment.
- * @param {File} file - The file to convert to a buffer.
- * @returns {Promise<Buffer>} A promise that resolves to a buffer.
+ * @param file - The file to convert to a buffer
+ * @returns A promise that resolves to a buffer
  */
-const fileToBuffer = async (file: File) => {
+const fileToBuffer = async (file: File): Promise<Buffer> => {
     // Convert Blob to ArrayBuffer
     const arrayBuffer = await new NextResponse(file).arrayBuffer();
-
     // Convert ArrayBuffer to Buffer
     const pdfBuffer = Buffer.from(arrayBuffer);
-
     return pdfBuffer;
 };
 
@@ -208,6 +177,5 @@ export {
     flattenObject,
     isValidEmail,
     isDataUrl,
-    getInvoiceTemplate,
     fileToBuffer,
 };
