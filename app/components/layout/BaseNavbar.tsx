@@ -16,7 +16,7 @@ import { LanguageSelector, ThemeSwitcher } from "@/app/components";
 const BaseNavbar = () => {
 
     return (
-        <header className="lg:container z-[99]">
+        <header className="container mx-auto max-w-7xl px-4 sm:px-5 lg:px-6 z-[99]">
             <nav>
                 <Card className="flex flex-wrap justify-between items-center px-5 gap-5">
                     <Link href={"/"}>

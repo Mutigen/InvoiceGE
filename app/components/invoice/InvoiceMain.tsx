@@ -1,45 +1,29 @@
 "use client";
 
-// RHF
 import { useFormContext } from "react-hook-form";
-
-// ShadCn
 import { Form } from "@/components/ui/form";
-
-// Components
 import { InvoiceActions, InvoiceForm } from "@/app/components";
-
-// Context
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
-
-// Types
 import { InvoiceType } from "@/types";
 
 const InvoiceMain = () => {
     const { handleSubmit } = useFormContext<InvoiceType>();
-
-    // Get the needed values from invoice context
     const { onFormSubmit } = useInvoiceContext();
 
     return (
-        <>
-            <Form {...useFormContext<InvoiceType>()}>
-                <form
-                    onSubmit={handleSubmit(onFormSubmit, (err) => {
-                        console.log(err);
-                    })}
-                >
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        <div className="lg:col-span-8 space-y-6">
-                            <InvoiceForm />
-                        </div>
-                        <aside className="lg:col-span-4 lg:sticky top-8 space-y-4">
-                            <InvoiceActions />
-                        </aside>
-                    </div>
-                </form>
-            </Form>
-        </>
+        <Form {...useFormContext<InvoiceType>()}>
+            <form
+                onSubmit={handleSubmit(onFormSubmit, (err) => console.log(err))}
+                className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start"
+            >
+                <div className="md:col-span-6 lg:col-span-6 space-y-6 min-w-0">
+                    <InvoiceForm />
+                </div>
+                <aside className="md:col-span-6 lg:col-span-6 lg:sticky top-8 space-y-4 min-w-0 h-full">
+                    <InvoiceActions />
+                </aside>
+            </form>
+        </Form>
     );
 };
 

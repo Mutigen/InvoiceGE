@@ -38,11 +38,6 @@ export const TAILWIND_CDN =
   "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
 
 /**
- * Google
- */
-export const GOOGLE_SC_VERIFICATION = process.env.GOOGLE_SC_VERIFICATION;
-
-/**
  * Nodemailer
  */
 export const NODEMAILER_EMAIL = process.env.NODEMAILER_EMAIL;

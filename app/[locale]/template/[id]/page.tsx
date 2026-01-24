@@ -26,7 +26,7 @@ const ViewTemplate = (props: ViewTemplatePageProps) => {
     const formValues = getValues();
 
     return (
-        <div className="container">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-5 lg:px-6">
             <DynamicComponent
                 sender={formValues.sender}
                 receiver={formValues.receiver}

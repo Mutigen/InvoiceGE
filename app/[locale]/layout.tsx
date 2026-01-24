@@ -17,7 +17,7 @@ import {
 // SEO
 import { JSONLD, ROOTKEYWORDS } from "@/lib/seo";
 // Variables
-import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
+import { BASE_URL, LOCALES } from "@/lib/variables";
 // Vercel Analytics
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
@@ -45,9 +45,6 @@ export const metadata: Metadata = {
     authors: {
         name: "InvoiceGE Team",
         url: "https://github.com/yourusername",
-    },
-    verification: {
-        google: GOOGLE_SC_VERIFICATION,
     },
     manifest: "/manifest.json",
     appleWebApp: {

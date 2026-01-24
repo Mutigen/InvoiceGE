@@ -52,7 +52,7 @@ const InvoiceForm = () => {
     }, [invoiceNumber, _t]);
 
     return (
-        <div className="w-full flex-1 max-w-5xl">
+        <div className="w-full min-w-0">
             <Card>
                 <CardHeader>
                     <div className="flex gap-3">

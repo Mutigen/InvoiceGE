@@ -8,6 +8,8 @@ import React, {
     useState,
 } from "react";
 
+import { useLocale } from "next-intl";
+
 // RHF
 import { useFormContext, useWatch } from "react-hook-form";
 
@@ -50,6 +52,7 @@ type ChargesContextProps = {
 
 export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
     const { control, setValue, getValues } = useFormContext<InvoiceType>();
+    const locale = useLocale();
 
     // Form Fields
     const itemsArray = useWatch({
@@ -165,6 +168,7 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
         shippingType,
         shipping?.cost,
         currency,
+        locale,
     ]);
 
     /**
@@ -234,8 +238,11 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
 
         setValue("details.totalAmount", total);
         
-        if (totalInWordsSwitch) {
-            setValue("details.totalAmountInWords", formatPriceToString(total, getValues("details.currency")));
+        if (totalInWordsSwitch && locale === "en") {
+            setValue(
+                "details.totalAmountInWords",
+                formatPriceToString(total, getValues("details.currency"))
+            );
         } else {
             setValue("details.totalAmountInWords", "");
         }

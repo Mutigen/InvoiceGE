@@ -7,240 +7,482 @@ import { InvoiceLayout } from "@/app/components";
 import { formatNumberWithCommas, isDataUrl } from "@/lib/helpers";
 
 // Variables
-import { DATE_OPTIONS } from "@/lib/variables";
+import { SHORT_DATE_OPTIONS } from "@/lib/variables";
 
 // Types
 import { InvoiceType } from "@/types";
-import { useTranslationContext } from "@/contexts/TranslationContext";
 
-const InvoiceTemplate = (data: InvoiceType) => {
-	const { sender, receiver, details } = data;
-	const { _t } = useTranslationContext();
+// Translation dictionary für PDF-Generierung
+const translations: Record<string, Record<string, string>> = {
+    en: {
+        "pdf.billFrom": "BILL FROM",
+        "pdf.taxID": "Tax ID",
+        "pdf.invoice": "INVOICE",
+        "pdf.invoiceDate": "INVOICE DATE",
+        "pdf.dueDate": "DUE DATE",
+        "pdf.invoiceNumber": "INVOICE NUMBER",
+        "pdf.billTo": "BILL TO",
+        "pdf.item": "ITEM",
+        "pdf.quantity": "QTY",
+        "pdf.unit": "UNIT",
+        "pdf.unitPrice": "UNIT PRICE",
+        "pdf.amount": "AMOUNT",
+        "pdf.paymentInstructions": "Payment Instructions",
+        "pdf.bank": "Bank",
+        "pdf.accountName": "Account Name",
+        "template.iban": "IBAN",
+        "template.swift": "SWIFT",
+        "template.director": "Director",
+        "pdf.paymentTerms": "Payment Terms",
+        "pdf.additionalNotes": "Additional Notes",
+        "pdf.questionsContact": "Questions? Contact us",
+        "pdf.subtotal": "Subtotal",
+        "pdf.discount": "Discount",
+        "pdf.tax": "Tax",
+        "pdf.shipping": "Shipping",
+        "pdf.total": "Total",
+        "pdf.totalInWords": "Total in words",
+        "pdf.signature": "Signature",
+    },
+    de: {
+        "pdf.billFrom": "RECHNUNG VON",
+        "pdf.taxID": "Steuernummer",
+        "pdf.invoice": "RECHNUNG",
+        "pdf.invoiceDate": "RECHNUNGSDATUM",
+        "pdf.dueDate": "FÄLLIGKEITSDATUM",
+        "pdf.invoiceNumber": "RECHNUNGSNUMMER",
+        "pdf.billTo": "RECHNUNG AN",
+        "pdf.item": "ARTIKEL",
+        "pdf.quantity": "MENGE",
+        "pdf.unit": "EINHEIT",
+        "pdf.unitPrice": "EINZELPREIS",
+        "pdf.amount": "BETRAG",
+        "pdf.paymentInstructions": "Zahlungshinweise",
+        "pdf.bank": "Bank",
+        "pdf.accountName": "Kontoinhaber",
+        "template.iban": "IBAN",
+        "template.swift": "SWIFT",
+        "template.director": "Direktor",
+        "pdf.paymentTerms": "Zahlungsbedingungen",
+        "pdf.additionalNotes": "Zusätzliche Hinweise",
+        "pdf.questionsContact": "Fragen? Kontaktieren Sie uns",
+        "pdf.subtotal": "Zwischensumme",
+        "pdf.discount": "Rabatt",
+        "pdf.tax": "Steuer",
+        "pdf.shipping": "Versand",
+        "pdf.total": "Gesamt",
+        "pdf.totalInWords": "Gesamt in Worten",
+        "pdf.signature": "Unterschrift",
+    },
+    ka: {
+        "pdf.billFrom": "გამგზავნი",
+        "pdf.taxID": "საიდენტიფიკაციო ნომერი",
+        "pdf.invoice": "ინვოისი",
+        "pdf.invoiceDate": "თარიღი",
+        "pdf.dueDate": "ვადა",
+        "pdf.invoiceNumber": "ინვოისის ნომერი",
+        "pdf.billTo": "დამკვეთი",
+        "pdf.item": "პროდუქტი",
+        "pdf.quantity": "რაოდ.",
+        "pdf.unit": "ზომის ერთეული",
+        "pdf.unitPrice": "ერთეულის ფასი",
+        "pdf.amount": "ღირებულება",
+        "pdf.paymentInstructions": "გადახდის ინსტრუქციები",
+        "pdf.bank": "ბანკი",
+        "pdf.accountName": "ანგარიშის სახელი",
+        "template.iban": "IBAN",
+        "template.swift": "SWIFT",
+        "template.director": "დირექტორი",
+        "pdf.paymentTerms": "გადახდის პირობები",
+        "pdf.additionalNotes": "დამატებითი შენიშვნები",
+        "pdf.questionsContact": "კითხვები? დაგვიკავშირდით",
+        "pdf.subtotal": "შუალედური ჯამი",
+        "pdf.discount": "ფასდაკლება",
+        "pdf.tax": "გადასახადი",
+        "pdf.shipping": "მიწოდება",
+        "pdf.total": "სულ",
+        "pdf.totalInWords": "სულ სიტყვებით",
+        "pdf.signature": "ხელმოწერა",
+    },
+};
 
-	return (
-		<InvoiceLayout data={data}>
-			<div className='flex justify-between'>
-				<div>
-					{details.invoiceLogo && (
-						<img
-							src={details.invoiceLogo}
-							width={140}
-							height={100}
-							alt={`Logo of ${sender.name}`}
-						/>
-					)}
-					<h1 className='mt-2 text-lg md:text-xl font-semibold text-blue-600'>{sender.name}</h1>
-				</div>
-				<div className='text-right'>
-					<h2 className='text-2xl md:text-3xl font-semibold text-gray-800'>{_t("pdf.invoiceNumber")}</h2>
-					<span className='mt-1 block text-gray-500'>{details.invoiceNumber}</span>
-					<address className='mt-4 not-italic text-gray-800'>
-						{sender.address}
-						<br />
-						{sender.zipCode}, {sender.city}
-						<br />
-						{sender.country}
-						<br />
-					</address>
-				</div>
-			</div>
+// Erweitere InvoiceType um locale
+type InvoiceTemplateProps = InvoiceType & { locale?: string };
 
-			<div className='mt-6 grid sm:grid-cols-2 gap-3'>
-				<div>
-					<h3 className='text-lg font-semibold text-gray-800'>
-						{_t("pdf.billTo")}:
-					</h3>
-					<h3 className='text-lg font-semibold text-gray-800'>{receiver.name}</h3>
-					{}
-					<address className='mt-2 not-italic text-gray-500'>
-						{receiver.address && receiver.address.length > 0 ? receiver.address : null}
-						{receiver.zipCode && receiver.zipCode.length > 0 ? `, ${receiver.zipCode}` : null}
-						<br />
-						{receiver.city}, {receiver.country}
-						<br />
-					</address>
-				</div>
-				<div className='sm:text-right space-y-2'>
-					<div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
-						<dl className='grid sm:grid-cols-6 gap-x-3'>
-							<dt className='col-span-3 font-semibold text-gray-800'>
-								{_t("pdf.invoiceDate")}:
-							</dt>
-							<dd className='col-span-3 text-gray-500'>
-								{details.invoiceDate ? new Date(details.invoiceDate).toLocaleDateString("en-US", DATE_OPTIONS) : ''}
-							</dd>
-						</dl>
-						<dl className='grid sm:grid-cols-6 gap-x-3'>
-							<dt className='col-span-3 font-semibold text-gray-800'>
-								{_t("pdf.dueDate")}:
-							</dt>
-							<dd className='col-span-3 text-gray-500'>
-								{details.dueDate ? new Date(details.dueDate).toLocaleDateString("en-US", DATE_OPTIONS) : ''}
-							</dd>
-						</dl>
-					</div>
-				</div>
-			</div>
+const InvoiceTemplate = (data: InvoiceTemplateProps) => {
+    const { sender, receiver, details, locale = 'en' } = data;
+    
+    // Lokale Translation-Funktion
+    const _t = (key: string): string => {
+        return translations[locale]?.[key] || translations['en'][key] || key;
+    };
 
-			<div className='mt-3'>
-				<div className='border border-gray-200 p-1 rounded-lg space-y-1'>
-					<div className='hidden sm:grid sm:grid-cols-5'>
-						<div className='sm:col-span-2 text-xs font-medium text-gray-500 uppercase'>{_t("pdf.item")}</div>
-						<div className='text-left text-xs font-medium text-gray-500 uppercase'>{_t("pdf.quantity")}</div>
-						<div className='text-left text-xs font-medium text-gray-500 uppercase'>{_t("pdf.unitPrice")}</div>
-						<div className='text-right text-xs font-medium text-gray-500 uppercase'>{_t("pdf.amount")}</div>
-					</div>
-					<div className='hidden sm:block border-b border-gray-200'></div>
-					<div className='grid grid-cols-3 sm:grid-cols-5 gap-y-1'>
-						{details.items.map((item, index) => (
-							<React.Fragment key={index}>
-								<div className='col-span-full sm:col-span-2 border-b border-gray-300'>
-									<p className='font-medium text-gray-800'>{item.name}</p>
-									<p className='text-xs text-gray-600 whitespace-pre-line'>{item.description}</p>
-								</div>
-								<div className='border-b border-gray-300'>
-									<p className='text-gray-800'>{item.quantity}</p>
-								</div>
-								<div className='border-b border-gray-300'>
-									<p className='text-gray-800'>
-										{item.unitPrice} {details.currency}
-									</p>
-								</div>
-								<div className='border-b border-gray-300'>
-									<p className='sm:text-right text-gray-800'>
-										{item.total} {details.currency}
-									</p>
-								</div>
-							</React.Fragment>
-						))}
-					</div>
-					<div className='sm:hidden border-b border-gray-200'></div>
-				</div>
-			</div>
+    const subtotalExVat = Number(details.subTotal) || 0;
+    const taxRate = Number(details.taxDetails?.amount ?? 0);
+    const taxAmount =
+        details.taxDetails?.amountType === "percentage"
+            ? (subtotalExVat * taxRate) / 100
+            : taxRate;
 
-			<div className='mt-2 flex sm:justify-end'>
-				<div className='sm:text-right space-y-2'>
-					<div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
-						<dl className='grid sm:grid-cols-5 gap-x-3'>
-							<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.subtotal")}:</dt>
-							<dd className='col-span-2 text-gray-500'>
-								{formatNumberWithCommas(Number(details.subTotal))} {details.currency}
-							</dd>
-						</dl>
-						{details.discountDetails?.amount != undefined &&
-							details.discountDetails?.amount > 0 && (
-								<dl className='grid sm:grid-cols-5 gap-x-3'>
-									<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.discount")}:</dt>
-									<dd className='col-span-2 text-gray-500'>
-										{details.discountDetails.amountType === "amount"
-											? `- ${details.discountDetails.amount} ${details.currency}`
-											: `- ${details.discountDetails.amount}%`}
-									</dd>
-								</dl>
-							)}
-						{details.taxDetails?.amount != undefined && details.taxDetails?.amount > 0 && (
-							<dl className='grid sm:grid-cols-5 gap-x-3'>
-								<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.tax")}:</dt>
-								<dd className='col-span-2 text-gray-500'>
-									{details.taxDetails.amountType === "amount"
-										? `+ ${details.taxDetails.amount} ${details.currency}`
-										: `+ ${details.taxDetails.amount}%`}
-								</dd>
-							</dl>
-						)}
-						{details.shippingDetails?.cost != undefined && details.shippingDetails?.cost > 0 && (
-							<dl className='grid sm:grid-cols-5 gap-x-3'>
-								<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.shipping")}:</dt>
-								<dd className='col-span-2 text-gray-500'>
-									{details.shippingDetails.costType === "amount"
-										? `+ ${details.shippingDetails.cost} ${details.currency}`
-										: `+ ${details.shippingDetails.cost}%`}
-								</dd>
-							</dl>
-						)}
-						<dl className='grid sm:grid-cols-5 gap-x-3'>
-							<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.total")}:</dt>
-							<dd className='col-span-2 text-gray-500'>
-								{formatNumberWithCommas(Number(details.totalAmount))} {details.currency}
-							</dd>
-						</dl>
-						{details.totalAmountInWords && (
-							<dl className='grid sm:grid-cols-5 gap-x-3'>
-								<dt className='col-span-3 font-semibold text-gray-800'>{_t("pdf.totalInWords")}:</dt>
-								<dd className='col-span-2 text-gray-500'>
-									<em>
-										{details.totalAmountInWords} {details.currency}
-									</em>
-								</dd>
-							</dl>
-						)}
-					</div>
-				</div>
-			</div>
+    return (
+        <InvoiceLayout data={data}>
+            <div className="space-y-8">
+                {/* Header */}
+                <div className="flex justify-between items-start gap-6">
+                    <div className="w-1/2 pr-4">
+                        {details.invoiceLogo && (
+                            <img
+                                src={details.invoiceLogo}
+                                width={150}
+                                height={80}
+                                alt={`Logo of ${sender.name}`}
+                                className="mb-4 object-contain"
+                            />
+                        )}
+                        <p className="text-xs text-gray-500 uppercase font-semibold">
+                            {_t("pdf.billFrom")}
+                        </p>
+                        <h2 className="font-semibold text-lg mb-1">
+                            {sender.name}
+                        </h2>
+                        <div className="text-sm text-gray-600 space-y-0.5">
+                            {sender.taxID && (
+                                <p>
+                                    {_t("pdf.taxID")}: {sender.taxID}
+                                </p>
+                            )}
+                            {sender.address && <p>{sender.address}</p>}
+                            {(sender.zipCode || sender.city || sender.country) && (
+                                <p>
+                                    {sender.zipCode ? `${sender.zipCode} ` : ""}
+                                    {sender.city ? `${sender.city}, ` : ""}
+                                    {sender.country}
+                                </p>
+                            )}
+                            {sender.phone && <p>{sender.phone}</p>}
+                            {sender.email && <p>{sender.email}</p>}
+                        </div>
+                    </div>
 
-			<div>
-				<div className='my-4'>
-					<div className='my-2'>
-						<p className='font-semibold text-blue-600'>
-							{_t("pdf.additionalNotes")}:
-						</p>
-						<p className='font-regular text-gray-800'>{details.additionalNotes}</p>
-					</div>
-					<div className='my-2'>
-						<p className='font-semibold text-blue-600'>
-							{_t("pdf.paymentTerms")}:
-						</p>
-						<p className='font-regular text-gray-800'>{details.paymentTerms}</p>
-					</div>
-					<div className='my-2'>
-						<span className='font-semibold text-md text-gray-800'>
-							{_t("pdf.paymentInstructions")}
-							<p className='text-sm'>
-								{_t("pdf.bank")}: {details.paymentInformation?.bankName}
-							</p>
-							<p className='text-sm'>
-								{_t("pdf.accountName")}: {details.paymentInformation?.accountName}
-							</p>
-						</span>
-					</div>
-				</div>
-				<p className='text-gray-500 text-sm'>
-					{_t("pdf.questionsContact")}:
-				</p>
-				<div>
-					<p className='block text-sm font-medium text-gray-800'>{sender.email}</p>
-					<p className='block text-sm font-medium text-gray-800'>{sender.phone}</p>
-				</div>
-			</div>
+                    <div className="w-1/3 text-right">
+                        <h1 className="text-2xl font-semibold text-gray-800 uppercase mb-4">
+                            {_t("pdf.invoice")}
+                        </h1>
+                        <div className="space-y-2">
+                            <div>
+                                <p className="text-xs text-gray-500 uppercase">
+                                    {_t("pdf.invoiceDate")}
+                                </p>
+                                <p className="font-semibold">
+                                    {details.invoiceDate
+                                        ? new Date(details.invoiceDate).toLocaleDateString(
+                                              undefined,
+                                              SHORT_DATE_OPTIONS
+                                          )
+                                        : ""}
+                                </p>
+                            </div>
+                            {details.dueDate && (
+                                <div>
+                                    <p className="text-xs text-gray-500 uppercase">
+                                        {_t("pdf.dueDate")}
+                                    </p>
+                                    <p className="font-semibold">
+                                        {new Date(details.dueDate).toLocaleDateString(
+                                            undefined,
+                                            SHORT_DATE_OPTIONS
+                                        )}
+                                    </p>
+                                </div>
+                            )}
+                            <div>
+                                <p className="text-xs text-gray-500 uppercase">
+                                    {_t("pdf.invoiceNumber")}
+                                </p>
+                                <p className="font-semibold text-blue-600">
+                                    {details.invoiceNumber}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			{/* Signature */}
-			{details?.signature?.data && isDataUrl(details?.signature?.data) ? (
-				<div className='mt-6'>
-					<p className='font-semibold text-gray-800'>{_t("pdf.signature")}:</p>
-					<img
-						src={details.signature.data}
-						width={120}
-						height={60}
-						alt={`Signature of ${sender.name}`}
-					/>
-				</div>
-			) : details.signature?.data ? (
-				<div className='mt-6'>
-					<p className='text-gray-800'>{_t("pdf.signature")}:</p>
-					<p
-						style={{
-							fontSize: 30,
-							fontWeight: 400,
-							fontFamily: `${details.signature.fontFamily}, cursive`,
-							color: "black",
-						}}
-					>
-						{details.signature.data}
-					</p>
-				</div>
-			) : null}
-		</InvoiceLayout>
-	);
+                {/* Receiver */}
+                <div className="border border-gray-200 p-4 rounded-lg">
+                    <p className="text-xs text-gray-500 uppercase font-semibold mb-2">
+                        {_t("pdf.billTo")}
+                    </p>
+                    <h3 className="font-semibold text-lg mb-1">
+                        {receiver.name}
+                    </h3>
+                    <div className="text-sm text-gray-600">
+                        {receiver.taxID && (
+                            <p className="mb-1">
+                                {_t("pdf.taxID")}: {receiver.taxID}
+                            </p>
+                        )}
+                        {receiver.address && <p>{receiver.address}</p>}
+                        {(receiver.zipCode || receiver.city || receiver.country) && (
+                            <p>
+                                {receiver.zipCode ? `${receiver.zipCode} ` : ""}
+                                {receiver.city ? `${receiver.city}, ` : ""}
+                                {receiver.country}
+                            </p>
+                        )}
+                    </div>
+                </div>
+
+                {/* Items Table */}
+                <div>
+                    <table className="w-full text-sm">
+                        <thead>
+                            <tr className="border-b-2 border-gray-300">
+                                <th className="py-2 text-left font-semibold w-12">#</th>
+                                <th className="py-2 text-left font-semibold">
+                                    {_t("pdf.item")}
+                                </th>
+                                <th className="py-2 text-center font-semibold w-20">
+                                    {_t("pdf.quantity")}
+                                </th>
+                                <th className="py-2 text-center font-semibold w-20">
+                                    {_t("pdf.unit")}
+                                </th>
+                                <th className="py-2 text-right font-semibold w-28">
+                                    {_t("pdf.unitPrice")}
+                                </th>
+                                <th className="py-2 text-right font-semibold w-32">
+                                    {_t("pdf.amount")}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200">
+                            {details.items.map((item, index) => (
+                                <tr key={index}>
+                                    <td className="py-3 text-left text-gray-500">
+                                        {index + 1}
+                                    </td>
+                                    <td className="py-3 text-left font-medium">
+                                        {item.name}
+                                        {item.description && (
+                                            <p className="text-xs text-gray-500 mt-0.5 whitespace-pre-line">
+                                                {item.description}
+                                            </p>
+                                        )}
+                                    </td>
+                                    <td className="py-3 text-center">
+                                        {item.quantity}
+                                    </td>
+                                    <td className="py-3 text-center text-gray-500">
+                                        {item.unit || "-"}
+                                    </td>
+                                    <td className="py-3 text-right">
+                                        {formatNumberWithCommas(
+                                            Number(item.unitPrice)
+                                        )}
+                                    </td>
+                                    <td className="py-3 text-right font-semibold">
+                                        {formatNumberWithCommas(Number(item.total))}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Footer: Bank/Notes left, Totals right */}
+                <div className="flex justify-between items-start pt-6 border-t border-gray-200">
+                    <div className="w-1/2 text-sm text-gray-600 space-y-4">
+                        <div>
+                            <p className="font-semibold text-gray-800 mb-1">
+                                {_t("pdf.paymentInstructions")}:
+                            </p>
+                            <p>
+                                <span className="font-medium">
+                                    {_t("pdf.bank")}:
+                                </span>{" "}
+                                {details.paymentInformation?.bankName}
+                            </p>
+                            {details.paymentInformation?.accountName && (
+                                <p>
+                                    <span className="font-medium">
+                                        {_t("pdf.accountName")}:
+                                    </span>{" "}
+                                    {details.paymentInformation.accountName}
+                                </p>
+                            )}
+                            {sender.iban && (
+                                <p>
+                                    <span className="font-medium">
+                                        {_t("template.iban")}:
+                                    </span>{" "}
+                                    {sender.iban}
+                                </p>
+                            )}
+                            {sender.swift && (
+                                <p>
+                                    <span className="font-medium">
+                                        {_t("template.swift")}:
+                                    </span>{" "}
+                                    {sender.swift}
+                                </p>
+                            )}
+                            {sender.directorName && (
+                                <p>
+                                    <span className="font-medium">
+                                        {_t("template.director")}:
+                                    </span>{" "}
+                                    {sender.directorName}
+                                </p>
+                            )}
+                        </div>
+
+                        {details.paymentTerms && (
+                            <p>
+                                <span className="font-medium">
+                                    {_t("pdf.paymentTerms")}:
+                                </span>{" "}
+                                {details.paymentTerms}
+                            </p>
+                        )}
+
+                        {details.additionalNotes && (
+                            <div className="text-xs text-gray-600">
+                                <span className="font-semibold">
+                                    {_t("pdf.additionalNotes")}:
+                                </span>{" "}
+                                {details.additionalNotes}
+                            </div>
+                        )}
+
+                        {(sender.email || sender.phone) && (
+                            <div className="text-xs text-gray-600">
+                                <p className="font-medium">
+                                    {_t("pdf.questionsContact")}:
+                                </p>
+                                {sender.email && <p>{sender.email}</p>}
+                                {sender.phone && <p>{sender.phone}</p>}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="w-5/12">
+                        <div className="flex justify-between py-2 border-b border-gray-200">
+                            <span className="text-gray-600">
+                                {_t("pdf.subtotal")}:
+                            </span>
+                            <span className="font-medium">
+                                {formatNumberWithCommas(subtotalExVat)}{" "}
+                                {details.currency}
+                            </span>
+                        </div>
+
+                        {details.discountDetails?.amount != undefined &&
+                            details.discountDetails?.amount > 0 && (
+                                <div className="flex justify-between py-2 border-b border-gray-200">
+                                    <span className="text-gray-600">
+                                        {_t("pdf.discount")}:
+                                    </span>
+                                    <span className="font-medium">
+                                        {details.discountDetails.amountType ===
+                                        "amount"
+                                            ? `- ${details.discountDetails.amount} ${details.currency}`
+                                            : `- ${details.discountDetails.amount}%`}
+                                    </span>
+                                </div>
+                            )}
+
+                        {details.taxDetails?.amount != undefined &&
+                            details.taxDetails?.amount > 0 && (
+                                <div className="flex justify-between py-2 border-b border-gray-200">
+                                    <span className="text-gray-600">
+                                        {_t("pdf.tax")}
+                                        {details.taxDetails.amountType ===
+                                        "percentage"
+                                            ? ` (${taxRate}%)`
+                                            : ""}
+                                        :
+                                    </span>
+                                    <span className="font-medium">
+                                        {details.taxDetails.amountType ===
+                                        "amount"
+                                            ? `+ ${details.taxDetails.amount} ${details.currency}`
+                                            : `+ ${formatNumberWithCommas(
+                                                  taxAmount
+                                              )} ${details.currency}`}
+                                    </span>
+                                </div>
+                            )}
+
+                        {details.shippingDetails?.cost != undefined &&
+                            details.shippingDetails?.cost > 0 && (
+                                <div className="flex justify-between py-2 border-b border-gray-200">
+                                    <span className="text-gray-600">
+                                        {_t("pdf.shipping")}:
+                                    </span>
+                                    <span className="font-medium">
+                                        {details.shippingDetails.costType ===
+                                        "amount"
+                                            ? `+ ${details.shippingDetails.cost} ${details.currency}`
+                                            : `+ ${details.shippingDetails.cost}%`}
+                                    </span>
+                                </div>
+                            )}
+
+                        <div className="flex justify-between py-3 text-lg font-semibold">
+                            <span>{_t("pdf.total")}:</span>
+                            <span className="text-blue-600">
+                                {formatNumberWithCommas(
+                                    Number(details.totalAmount)
+                                )}{" "}
+                                {details.currency}
+                            </span>
+                        </div>
+
+                        {details.totalAmountInWords && (
+                            <div className="text-sm text-gray-600">
+                                <span className="font-medium">
+                                    {_t("pdf.totalInWords")}:
+                                </span>{" "}
+                                {details.totalAmountInWords} {details.currency}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Signature */}
+                {details?.signature?.data &&
+                isDataUrl(details?.signature?.data) ? (
+                    <div className="mt-6">
+                        <p className="font-semibold text-gray-800">
+                            {_t("pdf.signature")}:
+                        </p>
+                        <img
+                            src={details.signature.data}
+                            width={120}
+                            height={60}
+                            alt={`Signature of ${sender.name}`}
+                        />
+                    </div>
+                ) : details.signature?.data ? (
+                    <div className="mt-6">
+                        <p className="text-gray-800">
+                            {_t("pdf.signature")}:
+                        </p>
+                        <p
+                            style={{
+                                fontSize: 30,
+                                fontWeight: 400,
+                                fontFamily: `${details.signature.fontFamily}, cursive`,
+                                color: "black",
+                            }}
+                        >
+                            {details.signature.data}
+                        </p>
+                    </div>
+                ) : null}
+            </div>
+        </InvoiceLayout>
+    );
 };
 
 export default InvoiceTemplate;

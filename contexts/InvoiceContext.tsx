@@ -88,12 +88,18 @@ export const InvoiceContextProvider = ({
    * en, de (English, German) → Template 1
    */
   const getLocaleSpecificDefaults = useCallback(() => {
-    const defaultTemplate = locale === 'ka' ? 3 : 1;
+    const defaultTemplate = locale === "ka" ? 3 : 1;
+    const defaultLanguage =
+      locale === "de" ? "Deutsch" : locale === "ka" ? "ქართული" : "English";
+    const defaultCurrency =
+      locale === "de" ? "EUR" : locale === "ka" ? "GEL" : "USD";
     return {
       ...FORM_DEFAULT_VALUES,
       details: {
         ...FORM_DEFAULT_VALUES.details,
         pdfTemplate: defaultTemplate,
+        language: defaultLanguage,
+        currency: defaultCurrency,
       },
     };
   }, [locale]);
