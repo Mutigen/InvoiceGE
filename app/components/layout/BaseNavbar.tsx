@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 // Components
 import { LanguageSelector, ThemeSwitcher } from "@/app/components";
 import AuthButton from "@/app/components/AuthButton";
+import BuyMeACoffeeButton from "@/app/components/BuyMeACoffeeButton"; // NEU
 
 const BaseNavbar = () => {
     return (
@@ -33,6 +34,7 @@ const BaseNavbar = () => {
                     <div className="flex items-center gap-4">
                         <LanguageSelector />
                         <ThemeSwitcher />
+                        <BuyMeACoffeeButton /> {/* NEU - vor dem AuthButton */}
                         <AuthButton />
                     </div>
                 </Card>
