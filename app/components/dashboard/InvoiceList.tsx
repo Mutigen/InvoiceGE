@@ -9,7 +9,7 @@ import { EmptyState } from './EmptyState'
 import { DeleteConfirmModal } from './DeleteConfirmModal'
 import { DashboardHeader } from './DashboardHeader'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 
 export function InvoiceList() {
   const t = useTranslations('dashboard')
@@ -63,13 +63,13 @@ export function InvoiceList() {
     const query = searchQuery.toLowerCase()
     const filtered = invoices.filter((invoice) => {
       const invoiceNumber = invoice.invoice_number.toLowerCase()
-      const fromName = invoice.invoice_data.from.name.toLowerCase()
-      const toName = invoice.invoice_data.to.name.toLowerCase()
+      const senderName = invoice.invoice_data.sender.name.toLowerCase()
+      const receiverName = invoice.invoice_data.receiver.name.toLowerCase()
 
       return (
         invoiceNumber.includes(query) ||
-        fromName.includes(query) ||
-        toName.includes(query)
+        senderName.includes(query) ||
+        receiverName.includes(query)
       )
     })
 

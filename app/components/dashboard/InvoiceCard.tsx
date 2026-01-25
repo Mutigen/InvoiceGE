@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { SupabaseInvoice } from '@/types'
 import { formatCurrency, formatDate } from '@/lib/utils/formatters'
 import { generatePdfFromInvoiceData, downloadPdf, previewPdf } from '@/lib/utils/invoiceHelpers'
-import { useToast } from '@/hooks/use-toast'
+import { useToast } from '@/components/ui/use-toast'
 
 interface InvoiceCardProps {
   invoice: SupabaseInvoice
@@ -27,14 +27,10 @@ export function InvoiceCard({ invoice, onDelete, onPaidStatusChange }: InvoiceCa
   const [isPaidOptimistic, setIsPaidOptimistic] = useState(invoice.paid_status)
 
   const invoiceData = invoice.invoice_data
-  const customerName = invoiceData.to.name || 'N/A'
+  const customerName = invoiceData.receiver.name || 'N/A'
 
-  // Calculate total amount
-  const subtotal = invoiceData.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0)
-  const tax = invoiceData.summary?.tax || 0
-  const discount = invoiceData.summary?.discount || 0
-  const shipping = invoiceData.summary?.shipping || 0
-  const total = subtotal + tax - discount + shipping
+  // Calculate total amount from details
+  const total = invoiceData.details.totalAmount
   const currency = invoiceData.details.currency || 'USD'
 
   const handlePaidToggle = async (checked: boolean) => {
