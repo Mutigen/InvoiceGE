@@ -22,6 +22,10 @@ export const AUTHOR_GITHUB = "https://github.com/Mutigen/InvoiceGE";
 export const GENERATE_PDF_API = "/api/invoice/generate";
 export const SEND_PDF_API = "/api/invoice/send";
 export const EXPORT_INVOICE_API = "/api/invoice/export";
+export const SAVE_INVOICE_API = "/api/invoice/save";
+export const LOAD_INVOICES_API = "/api/invoice/load";
+export const DELETE_INVOICE_API = "/api/invoice/delete";
+
 
 
 /**

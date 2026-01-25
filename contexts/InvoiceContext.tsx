@@ -26,6 +26,9 @@ import {
   FORM_DEFAULT_VALUES,
   GENERATE_PDF_API,
   SEND_PDF_API,
+  SAVE_INVOICE_API,
+  LOAD_INVOICES_API,
+  DELETE_INVOICE_API,
   SHORT_DATE_OPTIONS,
   LOCAL_STORAGE_INVOICE_DRAFT_KEY,
 } from "@/lib/variables";
@@ -110,17 +113,30 @@ export const InvoiceContextProvider = ({
   // Saved invoices
   const [savedInvoices, setSavedInvoices] = useState<InvoiceType[]>([]);
 
-  // Load saved invoices
-  useEffect(() => {
-    let savedInvoicesDefault;
-    if (typeof window !== undefined) {
-      // Saved invoices variables
-      const savedInvoicesJSON = window.localStorage.getItem("savedInvoices");
-      savedInvoicesDefault = savedInvoicesJSON
-        ? JSON.parse(savedInvoicesJSON)
-        : [];
-      setSavedInvoices(savedInvoicesDefault);
+  // Load invoices from Supabase DB
+  const loadInvoicesFromDB = async () => {
+    try {
+      const response = await fetch(LOAD_INVOICES_API);
+      
+      if (response.ok) {
+        const { invoices } = await response.json();
+        
+        // Transform DB format to app format
+        const transformedInvoices = invoices.map((inv: any) => ({
+          ...inv.invoice_data,
+          id: inv.id,
+        }));
+        
+        setSavedInvoices(transformedInvoices);
+      }
+    } catch (error) {
+      console.error("Error loading invoices:", error);
     }
+  };
+
+  // Load invoices on mount
+  useEffect(() => {
+    loadInvoicesFromDB();
   }, []);
 
   // Set locale-specific template on initial load if no draft exists
@@ -220,7 +236,7 @@ export const InvoiceContextProvider = ({
     } finally {
       setInvoicePdfLoading(false);
     }
-  }, []);
+  }, [pdfGenerationSuccess]);
 
   /**
    * Removes the final PDF file and switches to Live Preview
@@ -277,72 +293,76 @@ export const InvoiceContextProvider = ({
     }
   };
 
-  // TODO: Change function name. (saveInvoiceData maybe?)
   /**
-   * Saves the invoice data to local storage.
+   * Saves the invoice data to Supabase DB.
    */
-  const saveInvoice = () => {
+  const saveInvoice = async () => {
     if (invoicePdf) {
-      // If get values function is provided, allow to save the invoice
       if (getValues) {
-        // Retrieve the existing array from local storage or initialize an empty array
-        const savedInvoicesJSON = localStorage.getItem("savedInvoices");
-        const savedInvoices = savedInvoicesJSON
-          ? JSON.parse(savedInvoicesJSON)
-          : [];
+        try {
+          const updatedDate = new Date().toLocaleDateString(
+            "en-US",
+            SHORT_DATE_OPTIONS
+          );
 
-        const updatedDate = new Date().toLocaleDateString(
-          "en-US",
-          SHORT_DATE_OPTIONS
-        );
+          const formValues = getValues();
+          formValues.details.updatedAt = updatedDate;
 
-        const formValues = getValues();
-        formValues.details.updatedAt = updatedDate;
+          // Save to Supabase DB via API
+          const response = await fetch(SAVE_INVOICE_API, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ invoiceData: formValues }),
+          });
 
-        const existingInvoiceIndex = savedInvoices.findIndex(
-          (invoice: InvoiceType) => {
-            return (
-              invoice.details.invoiceNumber === formValues.details.invoiceNumber
-            );
+          if (response.ok) {
+            // Reload invoices from DB
+            await loadInvoicesFromDB();
+            
+            // Toast
+            saveInvoiceSuccess();
+          } else {
+            console.error("Failed to save invoice");
           }
-        );
-
-        // If invoice already exists
-        if (existingInvoiceIndex !== -1) {
-          savedInvoices[existingInvoiceIndex] = formValues;
-
-          // Toast
-          modifiedInvoiceSuccess();
-        } else {
-          // Add the form values to the array
-          savedInvoices.push(formValues);
-
-          // Toast
-          saveInvoiceSuccess();
+        } catch (error) {
+          console.error("Error saving invoice:", error);
         }
-
-        localStorage.setItem("savedInvoices", JSON.stringify(savedInvoices));
-
-        setSavedInvoices(savedInvoices);
       }
     }
   };
 
-  // TODO: Change function name. (deleteInvoiceData maybe?)
   /**
-   * Delete an invoice from local storage based on the given index.
+   * Delete an invoice from Supabase DB based on the given index.
    *
    * @param {number} index - The index of the invoice to be deleted.
    */
-  const deleteInvoice = (index: number) => {
+  const deleteInvoice = async (index: number) => {
     if (index >= 0 && index < savedInvoices.length) {
-      const updatedInvoices = [...savedInvoices];
-      updatedInvoices.splice(index, 1);
-      setSavedInvoices(updatedInvoices);
+      const invoiceToDelete = savedInvoices[index];
+      
+      // Delete from DB if it has an id
+      if (invoiceToDelete.id) {
+        try {
+          const response = await fetch(DELETE_INVOICE_API, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ invoiceId: invoiceToDelete.id }),
+          });
 
-      const updatedInvoicesJSON = JSON.stringify(updatedInvoices);
-
-      localStorage.setItem("savedInvoices", updatedInvoicesJSON);
+          if (response.ok) {
+            // Reload invoices from DB
+            await loadInvoicesFromDB();
+          } else {
+            console.error("Failed to delete invoice from DB");
+          }
+        } catch (error) {
+          console.error("Error deleting invoice:", error);
+        }
+      }
     }
   };
 

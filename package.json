@@ -33,7 +33,7 @@
     "@react-email/components": "^0.0.11",
     "@react-email/render": "^0.0.9",
     "@react-email/tailwind": "^0.0.12",
-    "@supabase/auth-helpers-nextjs": "^0.15.0",
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.91.1",
     "@types/node": "20.6.2",
     "@vercel/analytics": "^1.1.1",
@@ -61,6 +61,7 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "use-debounce": "^10.0.0",
+    "xlsx": "^0.18.5",
     "xml2js": "^0.6.2",
     "zod": "^3.22.2"
   },
