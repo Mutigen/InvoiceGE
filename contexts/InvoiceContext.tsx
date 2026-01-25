@@ -122,7 +122,7 @@ export const InvoiceContextProvider = ({
         const { invoices } = await response.json();
         
         // Transform DB format to app format
-        const transformedInvoices = invoices.map((inv: any) => ({
+        const transformedInvoices = invoices.map((inv: { id: string; invoice_data: InvoiceType }) => ({
           ...inv.invoice_data,
           id: inv.id,
         }));
@@ -345,12 +345,8 @@ export const InvoiceContextProvider = ({
       // Delete from DB if it has an id
       if (invoiceToDelete.id) {
         try {
-          const response = await fetch(DELETE_INVOICE_API, {
+          const response = await fetch(`${DELETE_INVOICE_API}?id=${invoiceToDelete.id}`, {
             method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ invoiceId: invoiceToDelete.id }),
           });
 
           if (response.ok) {
