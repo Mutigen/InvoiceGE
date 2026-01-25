@@ -1,68 +1,121 @@
-'use client'
+"use client";
 
-import { supabase } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { User } from '@supabase/supabase-js'
+import { useState, useEffect } from "react";
+import { User } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 
-export default function AuthButton() {
-  const router = useRouter()
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+// ShadCn
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-  useEffect(() => {
-    // Check current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
-      setLoading(false)
-    })
+// Icons
+import { LogIn, LogOut, User as UserIcon } from "lucide-react";
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null)
-    })
+const AuthButton = () => {
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    return () => subscription.unsubscribe()
-  }, [])
+    useEffect(() => {
+        // Get initial user
+        supabase.auth.getUser().then(({ data: { user } }) => {
+            setUser(user);
+            setLoading(false);
+        });
 
-  const handleSignIn = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`
-      }
-    })
-  }
+        // Listen for auth changes
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/')
-  }
+        return () => subscription.unsubscribe();
+    }, []);
 
-  if (loading) {
-    return <div className="text-sm text-gray-600">Loading...</div>
-  }
+    const handleSignIn = async () => {
+        await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
+        });
+    };
 
-  if (user) {
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        window.location.href = "/";
+    };
+
+    if (loading) {
+        return null; // or a loading spinner
+    }
+
+    // Not logged in - show sign in button
+    if (!user) {
+        return (
+            <Button onClick={handleSignIn} variant="default" size="sm">
+                <LogIn className="w-4 h-4 mr-2" />
+                Sign In
+            </Button>
+        );
+    }
+
+    // Logged in - show user dropdown
+    const userName = user.user_metadata?.full_name || user.email;
+    const userInitials = user.user_metadata?.full_name
+        ? user.user_metadata.full_name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+              .toUpperCase()
+        : user.email?.charAt(0).toUpperCase();
+
     return (
-      <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-700">{user.email}</span>
-        <button
-          onClick={handleSignOut}
-          className="px-4 py-2 text-sm bg-gray-200 hover:bg-gray-300 rounded"
-        >
-          Sign Out
-        </button>
-      </div>
-    )
-  }
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                    {user.user_metadata?.avatar_url ? (
+                        <img
+                            src={user.user_metadata.avatar_url}
+                            alt={userName}
+                            className="rounded-full w-8 h-8"
+                        />
+                    ) : (
+                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
+                            {userInitials}
+                        </div>
+                    )}
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium">{userName}</p>
+                        <p className="text-xs text-muted-foreground">
+                            {user.email}
+                        </p>
+                    </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    Profile
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};
 
-  return (
-    <button
-      onClick={handleSignIn}
-      className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded"
-    >
-      Sign in with Google
-    </button>
-  )
-}
+export default AuthButton;

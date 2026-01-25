@@ -17,7 +17,7 @@ const BaseFooter = () => {
                     target="_blank"
                     style={{ textDecoration: "underline" }}
                 >
-                    MAMIKO von MUT-i-GEN
+                    MAMIKO © MUT-i-GEN V1.0 for GIVA
                 </a>
             </p>
         </footer>

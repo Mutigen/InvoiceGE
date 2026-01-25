@@ -12,14 +12,14 @@ import { Card } from "@/components/ui/card";
 
 // Components
 import { LanguageSelector, ThemeSwitcher } from "@/app/components";
+import AuthButton from "@/app/components/AuthButton";
 
 const BaseNavbar = () => {
-
     return (
-        <header className="container mx-auto max-w-7xl px-4 sm:px-5 lg:px-6 z-[99]">
+        <header className="container mx-auto max-w-7xl px-4 sm:px-5 lg:px-6 z-99">
             <nav>
                 <Card className="flex flex-wrap justify-between items-center px-5 gap-5">
-                    <Link href={"/"}>
+                    <Link href="/">
                         <Image
                             src={Logo}
                             alt="Mamikos InvoiceGE Logo"
@@ -29,8 +29,12 @@ const BaseNavbar = () => {
                             style={{ height: "auto" }}
                         />
                     </Link>
-                    <LanguageSelector />
-                    <ThemeSwitcher />
+
+                    <div className="flex items-center gap-4">
+                        <LanguageSelector />
+                        <ThemeSwitcher />
+                        <AuthButton />
+                    </div>
                 </Card>
             </nav>
         </header>
