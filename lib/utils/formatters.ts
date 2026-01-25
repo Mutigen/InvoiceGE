@@ -12,7 +12,7 @@ export function formatCurrency(amount: number, currency: string): string {
  * Format date with locale-specific formatting
  */
 export function formatDate(dateString: string, locale: string): string {
-  return new Intl.DateFormat(locale, {
+  return new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
