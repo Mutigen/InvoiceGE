@@ -156,5 +156,39 @@
         "accountName": "Account name",
         "questionsContact": "If you have any questions concerning this invoice, use the following contact information",
         "signature": "Signature"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "header": {
+            "totalInvoices": "Total Invoices",
+            "newInvoice": "New Invoice"
+        },
+        "search": {
+            "placeholder": "Search by invoice number or customer name..."
+        },
+        "invoice": {
+            "number": "Invoice",
+            "customer": "Customer",
+            "amount": "Amount",
+            "date": "Date",
+            "paid": "Paid",
+            "unpaid": "Unpaid",
+            "preview": "Preview",
+            "download": "Download",
+            "delete": "Delete"
+        },
+        "deleteModal": {
+            "title": "Delete Invoice",
+            "description": "Are you sure you want to delete Invoice {number}? This action cannot be undone.",
+            "cancel": "Cancel",
+            "confirm": "Delete"
+        },
+        "emptyState": {
+            "title": "No invoices yet",
+            "description": "Create your first invoice to get started",
+            "button": "Create Invoice"
+        },
+        "loading": "Loading invoices...",
+        "error": "Failed to load invoices"
     }
 }

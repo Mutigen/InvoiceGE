@@ -156,5 +156,39 @@
         "accountName": "Kontoinhaber",
         "questionsContact": "Bei Fragen zu dieser Rechnung wenden Sie sich bitte an",
         "signature": "Unterschrift"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "header": {
+            "totalInvoices": "Rechnungen gesamt",
+            "newInvoice": "Neue Rechnung"
+        },
+        "search": {
+            "placeholder": "Suche nach Rechnungsnummer oder Kunde..."
+        },
+        "invoice": {
+            "number": "Rechnung",
+            "customer": "Kunde",
+            "amount": "Betrag",
+            "date": "Datum",
+            "paid": "Bezahlt",
+            "unpaid": "Offen",
+            "preview": "Vorschau",
+            "download": "Herunterladen",
+            "delete": "Löschen"
+        },
+        "deleteModal": {
+            "title": "Rechnung löschen",
+            "description": "Möchten Sie Rechnung {number} wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+            "cancel": "Abbrechen",
+            "confirm": "Löschen"
+        },
+        "emptyState": {
+            "title": "Noch keine Rechnungen",
+            "description": "Erstellen Sie Ihre erste Rechnung",
+            "button": "Rechnung erstellen"
+        },
+        "loading": "Rechnungen werden geladen...",
+        "error": "Rechnungen konnten nicht geladen werden"
     }
 }

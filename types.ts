@@ -56,3 +56,13 @@ export enum ExportTypes {
     XLSX = "XLSX",
     DOCX = "DOCX",
 }
+
+// Supabase types
+export type SupabaseInvoice = {
+    id: string;
+    user_id: string;
+    invoice_number: string;
+    invoice_data: InvoiceType;
+    created_at: string;
+    paid_status: boolean;
+};
