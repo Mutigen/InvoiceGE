@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 // Next
 import Link from "next/link";
 import Image from "next/image";
@@ -9,11 +7,15 @@ import Logo from "@/public/assets/img/mamikosinvoice-logo.svg";
 
 // ShadCn
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+// Icons
+import { LayoutDashboard } from "lucide-react";
 
 // Components
 import { LanguageSelector, ThemeSwitcher } from "@/app/components";
 import AuthButton from "@/app/components/AuthButton";
-import BuyMeACoffeeButton from "@/app/components/BuyMeACoffeeButton"; // NEU
+import BuyMeACoffeeButton from "@/app/components/BuyMeACoffeeButton";
 
 const BaseNavbar = () => {
     return (
@@ -32,9 +34,15 @@ const BaseNavbar = () => {
                     </Link>
 
                     <div className="flex items-center gap-4">
+                        <Link href="/dashboard">
+                            <Button variant="ghost" size="sm" className="gap-2">
+                                <LayoutDashboard className="h-4 w-4" />
+                                <span className="hidden sm:inline">Dashboard</span>
+                            </Button>
+                        </Link>
                         <LanguageSelector />
                         <ThemeSwitcher />
-                        <BuyMeACoffeeButton /> {/* NEU - vor dem AuthButton */}
+                        <BuyMeACoffeeButton />
                         <AuthButton />
                     </div>
                 </Card>
